@@ -7,8 +7,9 @@ const useStyles = makeStyles((theme) => ({
     root: {},
     main: {},
     headerTitle: {
-        background: theme.palette.primary.main,
+        background: theme.palette.background.default,
         borderBottom: `0.5rem solid ${theme.palette.secondary.main}`,
+        color: "#fff",
         textAlign: "center",
         padding: "2rem 0",
     },
@@ -20,7 +21,7 @@ function App() {
         <div className={classes.root}>
             <main className={classes.main}>
                 <Typography variant="h3" component="h1" className={classes.headerTitle}>
-                    Create React App
+                    Chess Notation Trainer
                 </Typography>
             </main>
         </div>

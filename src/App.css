@@ -5,12 +5,12 @@
 }
 
 * ::-moz-selection {
-    background: #eb431d;
+    background: #0db0b3;
     color: #fff;
 }
 
 * ::selection {
-    background: #eb431d;
+    background: #0db0b3;
     color: #fff;
 }
 
@@ -20,7 +20,7 @@ html {
 
 body {
     font-family: inherit;
-    background: #fff;
+    background: #0c0a0f;
     color: #222;
 }
 

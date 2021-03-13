@@ -8,10 +8,10 @@ import reportWebVitals from "./reportWebVitals";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#267fa6",
+            main: "#990026",
         },
         secondary: {
-            main: "#eb7628",
+            main: "#eb0841",
         },
         success: {
             main: "#42b347",
@@ -20,11 +20,11 @@ const theme = createMuiTheme({
             main: "#ef4a4a",
         },
         background: {
-            default: "#ffffff",
+            default: "#0c0a0f",
         },
     },
     typography: {
-        fontFamily: ["Lato", "Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
+        fontFamily: ["Raleway", "Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
     },
     breakpoints: {
         values: {
