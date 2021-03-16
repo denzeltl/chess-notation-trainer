@@ -1,14 +1,17 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import "./App.css";
+import Board from "./components/Board";
+import Scores from "./components/Scores";
+import Menu from "./components/Menu";
+import Wrapper from "./components/Wrapper";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
     main: {},
     headerTitle: {
         background: theme.palette.background.default,
-        borderBottom: `0.5rem solid ${theme.palette.secondary.main}`,
         color: "#fff",
         textAlign: "center",
         padding: "2rem 0",
@@ -23,6 +26,19 @@ function App() {
                 <Typography variant="h3" component="h1" className={classes.headerTitle}>
                     Chess Notation Trainer
                 </Typography>
+                <Wrapper>
+                    <Grid container spacing={4}>
+                        <Grid item xs={3}>
+                            <Scores />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Board />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Menu />
+                        </Grid>
+                    </Grid>
+                </Wrapper>
             </main>
         </div>
     );
