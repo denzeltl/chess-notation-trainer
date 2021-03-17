@@ -11,10 +11,9 @@ const useStyles = makeStyles((theme) => ({
     root: {},
     main: {},
     headerTitle: {
-        background: theme.palette.background.default,
         color: "#fff",
         textAlign: "center",
-        padding: "2rem 0",
+        padding: "3rem 0",
     },
 }));
 
