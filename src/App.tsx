@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import "./App.css";
@@ -17,8 +17,51 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface State {
+    timer: number;
+    score: number;
+    highScore: number;
+    position: "start" | "";
+    orientation: "white" | "black" | "random";
+}
+
+interface Action {
+    type: "CHANGE_ORIENTATION";
+    payload?: State;
+}
+
+function reducer(state: State, action: Action): State {
+    const { type, payload } = action;
+
+    switch (type) {
+        case "CHANGE_ORIENTATION":
+            return {
+                ...state,
+            };
+
+        default:
+            return state;
+    }
+}
+
+const initialState: State = {
+    timer: 60,
+    score: 0,
+    highScore: 0,
+    position: "start",
+    orientation: "white",
+};
+
 function App() {
     const classes = useStyles();
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    function changeOrientation(): void {
+        dispatch({
+            type: "CHANGE_ORIENTATION",
+        });
+    }
+
     return (
         <div className={classes.root}>
             <main className={classes.main}>
@@ -31,7 +74,7 @@ function App() {
                             <Scores />
                         </Grid>
                         <Grid item xs={6}>
-                            <Board />
+                            <Board state={state} changeOrientation={changeOrientation} />
                         </Grid>
                         <Grid item xs={3}>
                             <Menu />

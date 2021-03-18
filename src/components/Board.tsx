@@ -10,7 +10,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface BoardProps {}
+interface BoardProps {
+    state: {
+        timer: number;
+        score: number;
+        highScore: number;
+        position: "start" | "";
+        orientation: "white" | "black" | "random";
+    };
+    changeOrientation: () => void;
+}
 
 interface windowDimension {
     width: number;
@@ -23,12 +32,12 @@ function getWindowDimensions(): windowDimension {
     };
 }
 
-const Board: React.FC<BoardProps> = () => {
+const Board: React.FC<BoardProps> = ({ state, changeOrientation }) => {
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
 
-    console.log(width);
+    console.log(state, changeOrientation);
 
     useEffect(() => {
         function handleResize() {
@@ -44,9 +53,9 @@ const Board: React.FC<BoardProps> = () => {
             <Chessboard
                 position={"start"}
                 // squareStyles={this.state.squareStyles}
-                // onDrop={this.onDrop}
                 draggable={false}
                 showNotation={true}
+                onSquareClick={(e) => console.log(e)}
                 // orientation={this.props.orientation === "random" ? this.state.orientation : this.props.orientation}
                 calcWidth={() => width / 2.6}
             />
