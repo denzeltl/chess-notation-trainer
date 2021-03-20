@@ -11,9 +11,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-interface MenuProps {}
+interface MenuProps {
+    state: {
+        timer: number;
+        score: number;
+        highScore: number;
+        position: "start" | "";
+        orientation: "white" | "black" | "random";
+    };
+    changeOrientation: (color: "white" | "black" | "random") => void;
+    startGame: () => void;
+}
 
-const Menu: React.FC<MenuProps> = () => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame }) => {
     const classes = useStyles();
 
     return (
@@ -24,17 +34,17 @@ const Menu: React.FC<MenuProps> = () => {
                 </Paper>
                 <Grid container item spacing={1}>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained">
+                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("white")}>
                             White
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained">
+                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("random")}>
                             Random
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained">
+                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("black")}>
                             Black
                         </Button>
                     </Grid>
@@ -44,7 +54,7 @@ const Menu: React.FC<MenuProps> = () => {
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button color="secondary" variant="contained">
+                        <Button color="secondary" variant="contained" onClick={startGame}>
                             Start
                         </Button>
                     </Grid>

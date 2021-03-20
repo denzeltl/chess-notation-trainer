@@ -18,7 +18,7 @@ interface BoardProps {
         position: "start" | "";
         orientation: "white" | "black" | "random";
     };
-    changeOrientation: () => void;
+    changeOrientation: (e: any) => void;
 }
 
 interface windowDimension {
@@ -36,8 +36,6 @@ const Board: React.FC<BoardProps> = ({ state, changeOrientation }) => {
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
-
-    console.log(state, changeOrientation);
 
     useEffect(() => {
         function handleResize() {

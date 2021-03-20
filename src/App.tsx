@@ -26,8 +26,8 @@ interface State {
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION";
-    payload?: State;
+    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE";
+    payload: State;
 }
 
 function reducer(state: State, action: Action): State {
@@ -37,8 +37,28 @@ function reducer(state: State, action: Action): State {
         case "CHANGE_ORIENTATION":
             return {
                 ...state,
+                orientation: payload.orientation,
             };
-
+        case "START_GAME":
+            return {
+                ...state,
+                position: "",
+            };
+        case "END_GAME":
+            return {
+                ...state,
+                position: "start",
+            };
+        case "START_PRACTICE":
+            return {
+                ...state,
+                position: "",
+            };
+        case "END_PRACTICE":
+            return {
+                ...state,
+                position: "start",
+            };
         default:
             return state;
     }
@@ -56,9 +76,40 @@ function App() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    function changeOrientation(): void {
+    console.log(state);
+
+    function changeOrientation(color: "white" | "black" | "random"): void {
         dispatch({
             type: "CHANGE_ORIENTATION",
+            payload: { ...state, orientation: color },
+        });
+    }
+
+    function startGame(): void {
+        dispatch({
+            type: "START_GAME",
+            payload: state,
+        });
+    }
+
+    function endGame(): void {
+        dispatch({
+            type: "END_GAME",
+            payload: state,
+        });
+    }
+
+    function startPractice(): void {
+        dispatch({
+            type: "START_PRACTICE",
+            payload: state,
+        });
+    }
+
+    function endPractice(): void {
+        dispatch({
+            type: "END_PRACTICE",
+            payload: state,
         });
     }
 
@@ -77,7 +128,7 @@ function App() {
                             <Board state={state} changeOrientation={changeOrientation} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu />
+                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} />
                         </Grid>
                     </Grid>
                 </Wrapper>
