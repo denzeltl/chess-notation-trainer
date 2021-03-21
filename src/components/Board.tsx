@@ -32,10 +32,16 @@ function getWindowDimensions(): windowDimension {
     };
 }
 
-const Board: React.FC<BoardProps> = ({ state, changeOrientation }) => {
+const Board: React.FC<BoardProps> = ({ state }) => {
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
+    const [randomColor, setRandomColor] = useState<"white" | "black" | undefined>(undefined);
+
+    useEffect(() => {
+        let randColor: any = ["white", "black"][Math.floor(Math.random() * 2)];
+        setRandomColor(randColor);
+    }, [state.orientation]);
 
     useEffect(() => {
         function handleResize() {
@@ -54,7 +60,7 @@ const Board: React.FC<BoardProps> = ({ state, changeOrientation }) => {
                 draggable={false}
                 showNotation={true}
                 onSquareClick={(e) => console.log(e)}
-                // orientation={this.props.orientation === "random" ? this.state.orientation : this.props.orientation}
+                orientation={state.orientation === "random" ? randomColor : state.orientation}
                 calcWidth={() => width / 2.6}
             />
         </section>

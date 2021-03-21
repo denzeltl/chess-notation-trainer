@@ -8,10 +8,10 @@ import reportWebVitals from "./reportWebVitals";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#990026",
+            main: "#B68963",
         },
         secondary: {
-            main: "#eb0841",
+            main: "#794B25",
         },
         success: {
             main: "#42b347",

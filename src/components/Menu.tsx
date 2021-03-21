@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     rootContainer: {
         height: "100%",
     },
+    orientationButton: {},
 }));
 
 interface MenuProps {
@@ -34,17 +35,17 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame }) => {
                 </Paper>
                 <Grid container item spacing={1}>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("white")}>
+                        <Button color={state.orientation === "white" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("white")}>
                             White
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("random")}>
+                        <Button color={state.orientation === "random" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("random")}>
                             Random
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button color="secondary" variant="contained" onClick={() => changeOrientation("black")}>
+                        <Button color={state.orientation === "black" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("black")}>
                             Black
                         </Button>
                     </Grid>
