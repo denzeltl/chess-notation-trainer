@@ -23,6 +23,7 @@ interface State {
     highScore: number;
     position: "start" | "";
     orientation: "white" | "black" | "random";
+    notation: boolean;
 }
 
 interface Action {
@@ -43,6 +44,7 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 position: "",
+                notation: false,
             };
         case "END_GAME":
             return {
@@ -70,6 +72,7 @@ const initialState: State = {
     highScore: 0,
     position: "start",
     orientation: "white",
+    notation: true,
 };
 
 function App() {

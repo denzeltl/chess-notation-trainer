@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import Chessboard from "chessboardjsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         [theme.breakpoints.down("xl")]: {},
+    },
+    countdown: {
+        color: "#fff",
     },
 }));
 
@@ -17,6 +20,7 @@ interface BoardProps {
         highScore: number;
         position: "start" | "";
         orientation: "white" | "black" | "random";
+        notation: boolean;
     };
     changeOrientation: (e: any) => void;
 }
@@ -55,14 +59,18 @@ const Board: React.FC<BoardProps> = ({ state }) => {
     return (
         <section className={classes.root}>
             <Chessboard
-                position={"start"}
-                // squareStyles={this.state.squareStyles}
+                position={state.position}
                 draggable={false}
-                showNotation={true}
+                showNotation={state.notation}
                 onSquareClick={(e) => console.log(e)}
                 orientation={state.orientation === "random" ? randomColor : state.orientation}
                 calcWidth={() => width / 2.6}
             />
+            <div className={classes.countdown}>
+                <Typography variant="h1" component="p">
+                    3
+                </Typography>
+            </div>
         </section>
     );
 };
