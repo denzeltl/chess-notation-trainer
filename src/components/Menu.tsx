@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +26,18 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame }) => {
     const classes = useStyles();
+    const [gameTimer, setGmeTimer] = useState(0);
+
+    useEffect(() => {
+        console.log(state.timer);
+        setGmeTimer(state.timer);
+    }, [state]);
 
     return (
         <section className={classes.root}>
             <Grid className={classes.rootContainer} container direction="column" justify="space-between">
                 <Paper>
-                    <Typography>Instructions / Notes</Typography>
+                    <Typography>{gameTimer}</Typography>
                 </Paper>
                 <Grid container item spacing={1}>
                     <Grid item xs={4}>

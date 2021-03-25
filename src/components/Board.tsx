@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Chessboard from "chessboardjsx";
+import Center from "./Center";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,11 +67,7 @@ const Board: React.FC<BoardProps> = ({ state }) => {
                 orientation={state.orientation === "random" ? randomColor : state.orientation}
                 calcWidth={() => width / 2.6}
             />
-            <div className={classes.countdown}>
-                <Typography variant="h1" component="p">
-                    3
-                </Typography>
-            </div>
+            <Center />
         </section>
     );
 };

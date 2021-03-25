@@ -27,7 +27,7 @@ interface State {
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE";
+    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN";
     payload: State;
 }
 
@@ -50,6 +50,8 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 position: "start",
+                notation: true,
+                timer: 8,
             };
         case "START_PRACTICE":
             return {
@@ -61,13 +63,19 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 position: "start",
             };
+        case "START_COUNTDOWN":
+            return {
+                ...state,
+                timer: payload.timer,
+            };
         default:
             return state;
     }
 }
 
 const initialState: State = {
-    timer: 60,
+    timer: 8,
+    // TODO: timer: 60
     score: 0,
     highScore: 0,
     position: "start",
@@ -79,8 +87,6 @@ function App() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    console.log(state);
-
     function changeOrientation(color: "white" | "black" | "random"): void {
         dispatch({
             type: "CHANGE_ORIENTATION",
@@ -89,6 +95,7 @@ function App() {
     }
 
     function startGame(): void {
+        startCountdown();
         dispatch({
             type: "START_GAME",
             payload: state,
@@ -96,6 +103,7 @@ function App() {
     }
 
     function endGame(): void {
+        console.log("END");
         dispatch({
             type: "END_GAME",
             payload: state,
@@ -114,6 +122,20 @@ function App() {
             type: "END_PRACTICE",
             payload: state,
         });
+    }
+
+    function startCountdown(): void {
+        const start = setInterval(() => {
+            if (state.timer > 0) {
+                dispatch({
+                    type: "START_COUNTDOWN",
+                    payload: { ...state, timer: (state.timer -= 1) },
+                });
+            } else {
+                clearInterval(start);
+                endGame();
+            }
+        }, 1000);
     }
 
     return (
