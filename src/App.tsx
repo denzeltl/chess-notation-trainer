@@ -24,6 +24,7 @@ interface State {
     position: "start" | "";
     orientation: "white" | "black" | "random";
     notation: boolean;
+    active: boolean;
 }
 
 interface Action {
@@ -45,6 +46,7 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 position: "",
                 notation: false,
+                active: true,
             };
         case "END_GAME":
             return {
@@ -52,6 +54,7 @@ function reducer(state: State, action: Action): State {
                 position: "start",
                 notation: true,
                 timer: 8,
+                active: false,
             };
         case "START_PRACTICE":
             return {
@@ -81,6 +84,7 @@ const initialState: State = {
     position: "start",
     orientation: "white",
     notation: true,
+    active: false,
 };
 
 function App() {

@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         justifyContent: "center",
+        position: "relative",
         [theme.breakpoints.down("xl")]: {},
     },
     countdown: {
@@ -22,6 +23,7 @@ interface BoardProps {
         position: "start" | "";
         orientation: "white" | "black" | "random";
         notation: boolean;
+        active: boolean;
     };
     changeOrientation: (e: any) => void;
 }
@@ -66,8 +68,9 @@ const Board: React.FC<BoardProps> = ({ state }) => {
                 onSquareClick={(e) => console.log(e)}
                 orientation={state.orientation === "random" ? randomColor : state.orientation}
                 calcWidth={() => width / 2.6}
+                boardStyle={{ cursor: state.active ? "pointer" : "default" }}
             />
-            <Center />
+            <Center active={state.active} />
         </section>
     );
 };
