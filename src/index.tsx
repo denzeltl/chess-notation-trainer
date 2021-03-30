@@ -24,7 +24,7 @@ const theme = createMuiTheme({
         },
     },
     typography: {
-        fontFamily: ["Raleway", "Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
+        fontFamily: ["Montserrat", "Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
     },
     breakpoints: {
         values: {

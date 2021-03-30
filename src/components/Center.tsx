@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paragraph: {
         textShadow: "0 0 8px rgba(0, 0, 0, 0.4)",
-        transform: "translateY(-0.7rem)",
     },
 }));
 
