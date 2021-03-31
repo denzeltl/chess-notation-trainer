@@ -65,33 +65,50 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame }) => {
                         </>
                     )}
                 </div>
-                <Grid container item spacing={1}>
-                    <Grid item xs={4}>
-                        <Button color={state.orientation === "white" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("white")}>
-                            White
-                        </Button>
+                {!state.active && (
+                    <Grid container item spacing={1}>
+                        <Grid item xs={4}>
+                            <Button
+                                color={state.orientation === "white" ? "primary" : "secondary"}
+                                className={classes.orientationButton}
+                                variant="contained"
+                                onClick={() => changeOrientation("white")}
+                            >
+                                White
+                            </Button>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button
+                                color={state.orientation === "random" ? "primary" : "secondary"}
+                                className={classes.orientationButton}
+                                variant="contained"
+                                onClick={() => changeOrientation("random")}
+                            >
+                                Random
+                            </Button>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Button
+                                color={state.orientation === "black" ? "primary" : "secondary"}
+                                className={classes.orientationButton}
+                                variant="contained"
+                                onClick={() => changeOrientation("black")}
+                            >
+                                Black
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button color="secondary" variant="contained">
+                                Practice
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button color="secondary" variant="contained" onClick={startGame}>
+                                Start
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Button color={state.orientation === "random" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("random")}>
-                            Random
-                        </Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button color={state.orientation === "black" ? "primary" : "secondary"} className={classes.orientationButton} variant="contained" onClick={() => changeOrientation("black")}>
-                            Black
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button color="secondary" variant="contained">
-                            Practice
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button color="secondary" variant="contained" onClick={startGame}>
-                            Start
-                        </Button>
-                    </Grid>
-                </Grid>
+                )}
             </Grid>
         </section>
     );

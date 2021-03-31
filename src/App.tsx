@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import "./App.css";
@@ -90,6 +90,73 @@ const initialState: State = {
 function App() {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
+    const notations: string[] = [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6",
+        "a7",
+        "a8",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8",
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "d5",
+        "d6",
+        "d7",
+        "d8",
+        "e1",
+        "e2",
+        "e3",
+        "e4",
+        "e5",
+        "e6",
+        "e7",
+        "e8",
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5",
+        "f6",
+        "f7",
+        "f8",
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "h7",
+        "h8",
+    ];
+    const [generatedNotation, setGeneratedNotation] = useState<string | null>(null);
 
     function changeOrientation(color: "white" | "black" | "random"): void {
         dispatch({
@@ -100,6 +167,7 @@ function App() {
 
     function startGame(): void {
         startCountdown();
+        generateNotation();
         dispatch({
             type: "START_GAME",
             payload: state,
@@ -142,6 +210,11 @@ function App() {
         }, 1000);
     }
 
+    function generateNotation(): void {
+        const randomNotation = notations[Math.floor(Math.random() * notations.length)];
+        setGeneratedNotation(randomNotation);
+    }
+
     return (
         <div className={classes.root}>
             <main className={classes.main}>
@@ -154,7 +227,7 @@ function App() {
                             <Scores />
                         </Grid>
                         <Grid item xs={6}>
-                            <Board state={state} changeOrientation={changeOrientation} />
+                            <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} />
                         </Grid>
                         <Grid item xs={3}>
                             <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} />

@@ -12,22 +12,23 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xl")]: {},
     },
     paragraph: {
-        textShadow: "0 0 8px rgba(0, 0, 0, 0.4)",
+        textShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
     },
 }));
 
 interface CenterProps {
     active: boolean;
+    generatedNotation: string | null;
 }
 
-const Center: React.FC<CenterProps> = ({ active }) => {
+const Center: React.FC<CenterProps> = ({ active, generatedNotation }) => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
             {active && (
                 <Typography variant="h1" component="p" className={classes.paragraph}>
-                    3
+                    {generatedNotation}
                 </Typography>
             )}
         </div>

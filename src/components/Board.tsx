@@ -26,6 +26,7 @@ interface BoardProps {
         active: boolean;
     };
     changeOrientation: (e: any) => void;
+    generatedNotation: string | null;
 }
 
 interface windowDimension {
@@ -39,7 +40,7 @@ function getWindowDimensions(): windowDimension {
     };
 }
 
-const Board: React.FC<BoardProps> = ({ state }) => {
+const Board: React.FC<BoardProps> = ({ state, generatedNotation }) => {
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
@@ -70,7 +71,7 @@ const Board: React.FC<BoardProps> = ({ state }) => {
                 calcWidth={() => width / 2.6}
                 boardStyle={{ cursor: state.active ? "pointer" : "default" }}
             />
-            <Center active={state.active} />
+            <Center active={state.active} generatedNotation={generatedNotation} />
         </section>
     );
 };
