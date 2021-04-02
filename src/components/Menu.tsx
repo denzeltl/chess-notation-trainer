@@ -36,12 +36,12 @@ interface MenuProps {
     };
     changeOrientation: (color: "white" | "black" | "random") => void;
     startGame: () => void;
+    gameScore: number;
 }
 
-const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame }) => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameScore }) => {
     const classes = useStyles();
     const [gameTimer, setGmeTimer] = useState(0);
-    const [gameScore, setGameScore] = useState(0);
 
     useEffect(() => {
         console.log(state.timer);

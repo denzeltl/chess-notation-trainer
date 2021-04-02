@@ -27,6 +27,7 @@ interface BoardProps {
     };
     changeOrientation: (e: any) => void;
     generatedNotation: string | null;
+    onSquareClick: (e: any) => void;
 }
 
 interface windowDimension {
@@ -40,7 +41,7 @@ function getWindowDimensions(): windowDimension {
     };
 }
 
-const Board: React.FC<BoardProps> = ({ state, generatedNotation }) => {
+const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }) => {
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
@@ -66,7 +67,7 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation }) => {
                 position={state.position}
                 draggable={false}
                 showNotation={state.notation}
-                onSquareClick={(e) => console.log(e)}
+                onSquareClick={(e) => onSquareClick(e)}
                 orientation={state.orientation === "random" ? randomColor : state.orientation}
                 calcWidth={() => width / 2.6}
                 boardStyle={{ cursor: state.active ? "pointer" : "default" }}

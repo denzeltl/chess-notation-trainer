@@ -157,6 +157,7 @@ function App() {
         "h8",
     ];
     const [generatedNotation, setGeneratedNotation] = useState<string | null>(null);
+    const [gameScore, setGameScore] = useState(0);
 
     function changeOrientation(color: "white" | "black" | "random"): void {
         dispatch({
@@ -168,6 +169,7 @@ function App() {
     function startGame(): void {
         startCountdown();
         generateNotation();
+        setGameScore(0);
         dispatch({
             type: "START_GAME",
             payload: state,
@@ -215,6 +217,15 @@ function App() {
         setGeneratedNotation(randomNotation);
     }
 
+    function onSquareClick(e: any): void {
+        if (e === generatedNotation) {
+            generateNotation();
+            setGameScore((prevState) => prevState + 1);
+        } else {
+            console.log(e);
+        }
+    }
+
     return (
         <div className={classes.root}>
             <main className={classes.main}>
@@ -227,10 +238,10 @@ function App() {
                             <Scores />
                         </Grid>
                         <Grid item xs={6}>
-                            <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} />
+                            <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} />
+                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameScore={gameScore} />
                         </Grid>
                     </Grid>
                 </Wrapper>
