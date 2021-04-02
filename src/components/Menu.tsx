@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
-import { AccessTime, BarChart } from "@material-ui/icons";
+import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff",
         display: "flex",
         alignItems: "center",
-        "&:first-child": {
-            marginBottom: "1.5rem",
+        marginBottom: "1.5rem",
+        "&:last-child": {
+            marginBottom: "0",
         },
     },
     textTitle: {
@@ -61,6 +62,10 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                             <Typography variant="h4" component="p" className={classes.text}>
                                 <BarChart />
                                 <span className={classes.textTitle}>Score:</span> {gameScore}
+                            </Typography>
+                            <Typography variant="h4" component="p" className={classes.text}>
+                                <FiberManualRecordOutlined />
+                                <span className={classes.textTitle}>Side:</span> {state.orientation.charAt(0).toUpperCase() + state.orientation.slice(1)}
                             </Typography>
                         </>
                     )}

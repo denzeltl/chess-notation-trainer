@@ -218,11 +218,13 @@ function App() {
     }
 
     function onSquareClick(e: any): void {
-        if (e === generatedNotation) {
-            generateNotation();
-            setGameScore((prevState) => prevState + 1);
-        } else {
-            console.log(e);
+        if (state.active) {
+            if (e === generatedNotation) {
+                generateNotation();
+                setGameScore((prevState) => prevState + 1);
+            } else {
+                console.log(e);
+            }
         }
     }
 
