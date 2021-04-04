@@ -24,6 +24,7 @@ interface State {
     gameScore: number;
     position: "start" | "";
     orientation: OrientationType;
+    latestScorePos: OrientationType | undefined;
     notation: boolean;
     active: boolean;
 }
@@ -51,6 +52,7 @@ function reducer(state: State, action: Action): State {
                 notation: false,
                 active: true,
                 orientation: payload.orientation,
+                latestScorePos: payload.latestScorePos,
                 gameScore: 0,
             };
         case "END_GAME":
@@ -95,6 +97,7 @@ const initialState: State = {
     gameScore: 0,
     position: "start",
     orientation: "white",
+    latestScorePos: undefined,
     notation: true,
     active: false,
 };
@@ -193,12 +196,12 @@ function App() {
             let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
             dispatch({
                 type: "START_GAME",
-                payload: { ...state, orientation: randColor },
+                payload: { ...state, orientation: randColor, latestScorePos: randColor },
             });
         } else {
             dispatch({
                 type: "START_GAME",
-                payload: state,
+                payload: { ...state, orientation: color, latestScorePos: color },
             });
         }
     }
