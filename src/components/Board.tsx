@@ -21,7 +21,7 @@ interface BoardProps {
         score: number;
         highScore: number;
         position: "start" | "";
-        orientation: "white" | "black" | "random";
+        orientation: "white" | "black";
         notation: boolean;
         active: boolean;
     };
@@ -45,12 +45,6 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
     const classes = useStyles();
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
     const { width } = windowDimensions;
-    const [randomColor, setRandomColor] = useState<"white" | "black" | undefined>(undefined);
-
-    useEffect(() => {
-        let randColor: any = ["white", "black"][Math.floor(Math.random() * 2)];
-        setRandomColor(randColor);
-    }, [state.orientation]);
 
     useEffect(() => {
         function handleResize() {
@@ -68,7 +62,7 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
                 draggable={false}
                 showNotation={state.notation}
                 onSquareClick={(e) => onSquareClick(e)}
-                orientation={state.orientation === "random" ? randomColor : state.orientation}
+                orientation={state.orientation}
                 calcWidth={() => width / 2.6}
                 boardStyle={{ cursor: state.active ? "pointer" : "default" }}
             />

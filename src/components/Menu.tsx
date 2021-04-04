@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
 import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
 import whiteCircle from "../images/white-circle.svg";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     colorIcon: {
         margin: "5px 0 10px",
-        width: "15px",
+        width: "16px",
     },
     colorIconLabel: {
         marginRight: "8px",
@@ -48,22 +48,18 @@ interface MenuProps {
         score: number;
         highScore: number;
         position: "start" | "";
-        orientation: "white" | "black" | "random";
+        orientation: "white" | "black";
         active: boolean;
     };
     changeOrientation: (color: "white" | "black" | "random") => void;
-    startGame: () => void;
+    startGame: (color: "white" | "black" | "random") => void;
     gameScore: number;
+    gameTimer: number;
 }
 
-const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameScore }) => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameScore, gameTimer }) => {
     const classes = useStyles();
-    const [gameTimer, setGmeTimer] = useState(0);
-
-    useEffect(() => {
-        console.log(state.timer);
-        setGmeTimer(state.timer);
-    }, [state]);
+    const [buttonOrientation, setButtonOrientation] = useState<"white" | "black" | "random">("white");
 
     return (
         <section className={classes.root}>
@@ -96,10 +92,13 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                     <Grid container item spacing={1}>
                         <Grid item xs={4}>
                             <Button
-                                color={state.orientation === "white" ? "primary" : "secondary"}
+                                color={buttonOrientation === "white" ? "primary" : "secondary"}
                                 className={classes.orientationButton}
                                 variant="contained"
-                                onClick={() => changeOrientation("white")}
+                                onClick={() => {
+                                    setButtonOrientation("white");
+                                    changeOrientation("white");
+                                }}
                             >
                                 <div className={classes.buttonTextContainer}>
                                     <Typography variant="body2" component="p">
@@ -111,10 +110,13 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                         </Grid>
                         <Grid item xs={4}>
                             <Button
-                                color={state.orientation === "random" ? "primary" : "secondary"}
+                                color={buttonOrientation === "random" ? "primary" : "secondary"}
                                 className={classes.orientationButton}
                                 variant="contained"
-                                onClick={() => changeOrientation("random")}
+                                onClick={() => {
+                                    setButtonOrientation("random");
+                                    changeOrientation("random");
+                                }}
                             >
                                 <div className={classes.buttonTextContainer}>
                                     <Typography variant="body2" component="p">
@@ -126,10 +128,13 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                         </Grid>
                         <Grid item xs={4}>
                             <Button
-                                color={state.orientation === "black" ? "primary" : "secondary"}
+                                color={buttonOrientation === "black" ? "primary" : "secondary"}
                                 className={classes.orientationButton}
                                 variant="contained"
-                                onClick={() => changeOrientation("black")}
+                                onClick={() => {
+                                    setButtonOrientation("black");
+                                    changeOrientation("black");
+                                }}
                             >
                                 <div className={classes.buttonTextContainer}>
                                     <Typography variant="body2" component="p">
@@ -145,7 +150,7 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                             </Button>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="secondary" variant="contained" onClick={startGame}>
+                            <Button color="secondary" variant="contained" onClick={() => startGame(buttonOrientation)}>
                                 Start
                             </Button>
                         </Grid>

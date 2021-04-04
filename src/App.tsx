@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import "./App.css";
@@ -22,7 +22,7 @@ interface State {
     score: number;
     highScore: number;
     position: "start" | "";
-    orientation: "white" | "black" | "random";
+    orientation: OrientationType;
     notation: boolean;
     active: boolean;
 }
@@ -31,6 +31,8 @@ interface Action {
     type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN";
     payload: State;
 }
+
+type OrientationType = "white" | "black";
 
 function reducer(state: State, action: Action): State {
     const { type, payload } = action;
@@ -47,6 +49,7 @@ function reducer(state: State, action: Action): State {
                 position: "",
                 notation: false,
                 active: true,
+                orientation: payload.orientation,
             };
         case "END_GAME":
             return {
@@ -157,23 +160,43 @@ function App() {
         "h8",
     ];
     const [generatedNotation, setGeneratedNotation] = useState<string | null>(null);
-    const [gameScore, setGameScore] = useState(0);
+    const [gameScore, setGameScore] = useState<number>(0);
+    const [gameTimer, setGmeTimer] = useState<number>(0);
 
     function changeOrientation(color: "white" | "black" | "random"): void {
-        dispatch({
-            type: "CHANGE_ORIENTATION",
-            payload: { ...state, orientation: color },
-        });
+        if (color === "random") {
+            let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
+            dispatch({
+                type: "CHANGE_ORIENTATION",
+                payload: { ...state, orientation: randColor },
+            });
+        } else {
+            dispatch({
+                type: "CHANGE_ORIENTATION",
+                payload: { ...state, orientation: color },
+            });
+        }
     }
 
-    function startGame(): void {
+    function startGame(color: "white" | "black" | "random"): void {
         startCountdown();
         generateNotation();
         setGameScore(0);
-        dispatch({
-            type: "START_GAME",
-            payload: state,
-        });
+        if (color === "random") {
+            console.log("random");
+            let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
+            dispatch({
+                type: "START_GAME",
+                payload: { ...state, orientation: randColor },
+            });
+        } else {
+            console.log("worb");
+
+            dispatch({
+                type: "START_GAME",
+                payload: state,
+            });
+        }
     }
 
     function endGame(): void {
@@ -228,6 +251,11 @@ function App() {
         }
     }
 
+    useEffect(() => {
+        console.log(state.timer);
+        setGmeTimer(state.timer);
+    }, [state]);
+
     return (
         <div className={classes.root}>
             <main className={classes.main}>
@@ -243,7 +271,7 @@ function App() {
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameScore={gameScore} />
+                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameScore={gameScore} gameTimer={gameTimer} />
                         </Grid>
                     </Grid>
                 </Wrapper>
