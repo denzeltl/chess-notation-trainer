@@ -19,8 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface State {
     timer: number;
-    score: number;
+    latestScore: number;
     highScore: number;
+    gameScore: number;
     position: "start" | "";
     orientation: OrientationType;
     notation: boolean;
@@ -28,7 +29,7 @@ interface State {
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN";
+    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE";
     payload: State;
 }
 
@@ -50,6 +51,7 @@ function reducer(state: State, action: Action): State {
                 notation: false,
                 active: true,
                 orientation: payload.orientation,
+                gameScore: 0,
             };
         case "END_GAME":
             return {
@@ -58,6 +60,7 @@ function reducer(state: State, action: Action): State {
                 notation: true,
                 timer: 8,
                 active: false,
+                latestScore: payload.gameScore,
             };
         case "START_PRACTICE":
             return {
@@ -74,6 +77,11 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 timer: payload.timer,
             };
+        case "INC_SCORE":
+            return {
+                ...state,
+                gameScore: payload.gameScore,
+            };
         default:
             return state;
     }
@@ -82,8 +90,9 @@ function reducer(state: State, action: Action): State {
 const initialState: State = {
     timer: 8,
     // TODO: timer: 60
-    score: 0,
+    latestScore: 0,
     highScore: 0,
+    gameScore: 0,
     position: "start",
     orientation: "white",
     notation: true,
@@ -160,7 +169,6 @@ function App() {
         "h8",
     ];
     const [generatedNotation, setGeneratedNotation] = useState<string | null>(null);
-    const [gameScore, setGameScore] = useState<number>(0);
     const [gameTimer, setGmeTimer] = useState<number>(0);
 
     function changeOrientation(color: "white" | "black" | "random"): void {
@@ -181,17 +189,13 @@ function App() {
     function startGame(color: "white" | "black" | "random"): void {
         startCountdown();
         generateNotation();
-        setGameScore(0);
         if (color === "random") {
-            console.log("random");
             let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
             dispatch({
                 type: "START_GAME",
                 payload: { ...state, orientation: randColor },
             });
         } else {
-            console.log("worb");
-
             dispatch({
                 type: "START_GAME",
                 payload: state,
@@ -199,11 +203,10 @@ function App() {
         }
     }
 
-    function endGame(): void {
-        console.log("END");
+    function endGame(score: number): void {
         dispatch({
             type: "END_GAME",
-            payload: state,
+            payload: { ...state, latestScore: score },
         });
     }
 
@@ -230,7 +233,7 @@ function App() {
                 });
             } else {
                 clearInterval(start);
-                endGame();
+                endGame(state.gameScore);
             }
         }, 1000);
     }
@@ -244,7 +247,10 @@ function App() {
         if (state.active) {
             if (e === generatedNotation) {
                 generateNotation();
-                setGameScore((prevState) => prevState + 1);
+                dispatch({
+                    type: "INC_SCORE",
+                    payload: { ...state, gameScore: (state.gameScore += 1) },
+                });
             } else {
                 console.log(e);
             }
@@ -265,13 +271,13 @@ function App() {
                 <Wrapper>
                     <Grid container spacing={4}>
                         <Grid item xs={3}>
-                            <Scores />
+                            <Scores state={state} />
                         </Grid>
                         <Grid item xs={6}>
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameScore={gameScore} gameTimer={gameTimer} />
+                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameTimer={gameTimer} />
                         </Grid>
                     </Grid>
                 </Wrapper>

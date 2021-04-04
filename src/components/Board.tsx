@@ -17,9 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface BoardProps {
     state: {
-        timer: number;
-        score: number;
-        highScore: number;
         position: "start" | "";
         orientation: "white" | "black";
         notation: boolean;

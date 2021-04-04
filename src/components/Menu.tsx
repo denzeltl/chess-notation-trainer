@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
+import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
 import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
 import whiteCircle from "../images/white-circle.svg";
 import blackCircle from "../images/black-circle.svg";
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 interface MenuProps {
     state: {
         timer: number;
-        score: number;
+        gameScore: number;
         highScore: number;
         position: "start" | "";
         orientation: "white" | "black";
@@ -53,11 +53,10 @@ interface MenuProps {
     };
     changeOrientation: (color: "white" | "black" | "random") => void;
     startGame: (color: "white" | "black" | "random") => void;
-    gameScore: number;
     gameTimer: number;
 }
 
-const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameScore, gameTimer }) => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTimer }) => {
     const classes = useStyles();
     const [buttonOrientation, setButtonOrientation] = useState<"white" | "black" | "random">("white");
 
@@ -73,7 +72,7 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameSc
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
                                 <BarChart />
-                                <span className={classes.textTitle}>Score:</span> {gameScore}
+                                <span className={classes.textTitle}>Score:</span> {state.gameScore}
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
                                 <FiberManualRecordOutlined />
