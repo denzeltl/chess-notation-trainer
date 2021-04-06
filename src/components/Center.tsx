@@ -18,15 +18,17 @@ const useStyles = makeStyles((theme) => ({
 
 interface CenterProps {
     active: boolean;
+    activePractice: boolean;
     generatedNotation: string | null;
+    onMenu: boolean;
 }
 
-const Center: React.FC<CenterProps> = ({ active, generatedNotation }) => {
+const Center: React.FC<CenterProps> = ({ active, generatedNotation, activePractice, onMenu }) => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            {active && (
+            {!onMenu && (
                 <Typography variant="h1" component="p" className={classes.paragraph}>
                     {generatedNotation}
                 </Typography>

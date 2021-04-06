@@ -22,15 +22,18 @@ interface State {
     latestScore: number;
     highScore: number;
     gameScore: number;
+    practiceScore: number;
     position: "start" | "";
     orientation: OrientationType;
     latestScorePos: OrientationType | undefined;
     notation: boolean;
     active: boolean;
+    activePractice: boolean;
+    onMenu: boolean;
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE";
+    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE" | "INC_SCORE_PRACTICE";
     payload: State;
 }
 
@@ -54,6 +57,7 @@ function reducer(state: State, action: Action): State {
                 orientation: payload.orientation,
                 latestScorePos: payload.latestScorePos,
                 gameScore: 0,
+                onMenu: false,
             };
         case "END_GAME":
             return {
@@ -63,16 +67,22 @@ function reducer(state: State, action: Action): State {
                 timer: 8,
                 active: false,
                 latestScore: payload.gameScore,
+                onMenu: true,
             };
         case "START_PRACTICE":
             return {
                 ...state,
                 position: "",
+                activePractice: true,
+                practiceScore: 0,
+                onMenu: false,
             };
         case "END_PRACTICE":
             return {
                 ...state,
                 position: "start",
+                activePractice: false,
+                onMenu: true,
             };
         case "START_COUNTDOWN":
             return {
@@ -83,6 +93,11 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 gameScore: payload.gameScore,
+            };
+        case "INC_SCORE_PRACTICE":
+            return {
+                ...state,
+                practiceScore: payload.practiceScore,
             };
         default:
             return state;
@@ -95,11 +110,14 @@ const initialState: State = {
     latestScore: 0,
     highScore: 0,
     gameScore: 0,
+    practiceScore: 0,
     position: "start",
     orientation: "white",
     latestScorePos: undefined,
     notation: true,
     active: false,
+    activePractice: false,
+    onMenu: true,
 };
 
 function App() {
@@ -213,11 +231,20 @@ function App() {
         });
     }
 
-    function startPractice(): void {
-        dispatch({
-            type: "START_PRACTICE",
-            payload: state,
-        });
+    function startPractice(color: "white" | "black" | "random"): void {
+        generateNotation();
+        if (color === "random") {
+            let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
+            dispatch({
+                type: "START_PRACTICE",
+                payload: { ...state, orientation: randColor, latestScorePos: randColor },
+            });
+        } else {
+            dispatch({
+                type: "START_PRACTICE",
+                payload: { ...state, orientation: color, latestScorePos: color },
+            });
+        }
     }
 
     function endPractice(): void {
@@ -258,6 +285,17 @@ function App() {
                 console.log(e);
             }
         }
+        if (state.activePractice) {
+            if (e === generatedNotation) {
+                generateNotation();
+                dispatch({
+                    type: "INC_SCORE_PRACTICE",
+                    payload: { ...state, practiceScore: (state.practiceScore += 1) },
+                });
+            } else {
+                console.log(e);
+            }
+        }
     }
 
     useEffect(() => {
@@ -280,7 +318,7 @@ function App() {
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameTimer={gameTimer} />
+                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameTimer={gameTimer} startPractice={startPractice} endPractice={endPractice} />
                         </Grid>
                     </Grid>
                 </Wrapper>

@@ -50,13 +50,17 @@ interface MenuProps {
         position: "start" | "";
         orientation: "white" | "black";
         active: boolean;
+        activePractice: boolean;
+        onMenu: boolean;
     };
     changeOrientation: (color: "white" | "black" | "random") => void;
     startGame: (color: "white" | "black" | "random") => void;
     gameTimer: number;
+    startPractice: (color: "white" | "black" | "random") => void;
+    endPractice: () => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTimer }) => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTimer, startPractice, endPractice }) => {
     const classes = useStyles();
     const [buttonOrientation, setButtonOrientation] = useState<"white" | "black" | "random">("white");
 
@@ -144,15 +148,24 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                             </Button>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button color="secondary" variant="contained">
+                            <Button color="secondary" variant="contained" onClick={() => startPractice(buttonOrientation)} disabled={state.activePractice}>
                                 Practice
                             </Button>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button color="secondary" variant="contained" onClick={() => startGame(buttonOrientation)}>
-                                Start
-                            </Button>
-                        </Grid>
+                        {!state.activePractice && (
+                            <Grid item xs={12}>
+                                <Button color="secondary" variant="contained" onClick={() => startGame(buttonOrientation)}>
+                                    Start
+                                </Button>
+                            </Grid>
+                        )}
+                        {state.activePractice && (
+                            <Grid item xs={12}>
+                                <Button color="secondary" variant="contained" onClick={() => endPractice()}>
+                                    End Practice
+                                </Button>
+                            </Grid>
+                        )}
                     </Grid>
                 )}
             </Grid>

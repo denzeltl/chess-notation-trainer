@@ -28,6 +28,8 @@ interface ScoresProps {
         orientation: "white" | "black";
         latestScorePos: "white" | "black" | undefined;
         active: boolean;
+        activePractice: boolean;
+        onMenu: boolean;
     };
 }
 
@@ -38,10 +40,9 @@ const Scores: React.FC<ScoresProps> = ({ state }) => {
 
     return (
         <div className={classes.root}>
-            {!state.active && state.gameScore !== 0 && (
+            {state.onMenu && state.gameScore !== 0 && (
                 <>
                     <Typography variant="h4" component="p" className={classes.text}>
-                        {/* <AccessTime /> */}
                         <span className={classes.textTitle}>Latest Score:</span> {state.gameScore} ({state.latestScorePos!.charAt(0).toUpperCase() + state.latestScorePos!.slice(1)})
                     </Typography>
                 </>
