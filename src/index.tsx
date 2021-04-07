@@ -43,6 +43,11 @@ const theme = createMuiTheme({
             },
         },
     },
+    props: {
+        MuiButtonBase: {
+            disableRipple: true,
+        },
+    },
 });
 
 ReactDOM.render(
