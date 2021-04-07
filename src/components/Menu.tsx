@@ -57,6 +57,7 @@ interface MenuProps {
         timer: number;
         gameScore: number;
         highScore: number;
+        practiceScore: number;
         position: "start" | "";
         orientation: "white" | "black";
         active: boolean;
@@ -87,6 +88,24 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                             <Typography variant="h4" component="p" className={classes.text}>
                                 <BarChart />
                                 <span className={classes.textTitle}>Score:</span> {state.gameScore}
+                            </Typography>
+                            <Typography variant="h4" component="p" className={classes.text}>
+                                <FiberManualRecordOutlined />
+                                <span className={classes.textTitle}>Side:</span>
+                                {state.orientation === "white" ? (
+                                    <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
+                                ) : (
+                                    <img src={blackCircle} alt="Black Circle" className={classes.colorIconLabel} />
+                                )}
+                                {state.orientation.charAt(0).toUpperCase() + state.orientation.slice(1)}
+                            </Typography>
+                        </>
+                    )}
+                    {state.activePractice && (
+                        <>
+                            <Typography variant="h4" component="p" className={classes.text}>
+                                <BarChart />
+                                <span className={classes.textTitle}>Score:</span> {state.practiceScore}
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
                                 <FiberManualRecordOutlined />

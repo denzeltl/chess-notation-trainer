@@ -72,7 +72,6 @@ function reducer(state: State, action: Action): State {
         case "START_PRACTICE":
             return {
                 ...state,
-                position: "",
                 activePractice: true,
                 practiceScore: 0,
                 onMenu: false,
@@ -80,7 +79,6 @@ function reducer(state: State, action: Action): State {
         case "END_PRACTICE":
             return {
                 ...state,
-                position: "start",
                 activePractice: false,
                 onMenu: true,
             };
