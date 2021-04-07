@@ -35,8 +35,6 @@ interface ScoresProps {
 
 const Scores: React.FC<ScoresProps> = ({ state }) => {
     const classes = useStyles();
-    console.log(state.orientation);
-    console.log(state.latestScorePos);
 
     return (
         <div className={classes.root}>

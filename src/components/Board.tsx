@@ -67,7 +67,7 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
                 calcWidth={() => width / 2.6}
                 boardStyle={{ cursor: state.active || state.activePractice ? "pointer" : "default" }}
             />
-            <Center active={state.active} activePractice={state.activePractice} generatedNotation={generatedNotation} onMenu={state.onMenu} />
+            <Center generatedNotation={generatedNotation} onMenu={state.onMenu} />
         </section>
     );
 };

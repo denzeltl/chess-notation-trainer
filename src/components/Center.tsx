@@ -17,13 +17,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface CenterProps {
-    active: boolean;
-    activePractice: boolean;
     generatedNotation: string | null;
     onMenu: boolean;
 }
 
-const Center: React.FC<CenterProps> = ({ active, generatedNotation, activePractice, onMenu }) => {
+const Center: React.FC<CenterProps> = ({ generatedNotation, onMenu }) => {
     const classes = useStyles();
 
     return (

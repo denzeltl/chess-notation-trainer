@@ -284,7 +284,12 @@ function App() {
 
     function generateNotation(): void {
         const randomNotation = notations[Math.floor(Math.random() * notations.length)];
-        setGeneratedNotation(randomNotation);
+        if (randomNotation !== generatedNotation) {
+            setGeneratedNotation(randomNotation);
+        } else {
+            console.log("RERUN");
+            generateNotation();
+        }
     }
 
     function onSquareClick(e: any): void {
