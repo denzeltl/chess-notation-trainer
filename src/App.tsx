@@ -30,10 +30,12 @@ interface State {
     active: boolean;
     activePractice: boolean;
     onMenu: boolean;
+    practicePosition: boolean;
+    practiceCoords: boolean;
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE" | "INC_SCORE_PRACTICE";
+    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE" | "INC_SCORE_PRACTICE" | "PRACTICE_POSITION" | "PRACTICE_COORDS";
     payload: State;
 }
 
@@ -75,6 +77,8 @@ function reducer(state: State, action: Action): State {
                 activePractice: true,
                 practiceScore: 0,
                 onMenu: false,
+                practiceCoords: payload.practiceCoords,
+                practicePosition: payload.practicePosition,
             };
         case "END_PRACTICE":
             return {
@@ -97,6 +101,16 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 practiceScore: payload.practiceScore,
             };
+        case "PRACTICE_POSITION":
+            return {
+                ...state,
+                practicePosition: payload.practicePosition,
+            };
+        case "PRACTICE_COORDS":
+            return {
+                ...state,
+                practiceCoords: payload.practiceCoords,
+            };
         default:
             return state;
     }
@@ -116,6 +130,8 @@ const initialState: State = {
     active: false,
     activePractice: false,
     onMenu: true,
+    practicePosition: true,
+    practiceCoords: true,
 };
 
 function App() {
@@ -235,7 +251,7 @@ function App() {
             let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
             dispatch({
                 type: "START_PRACTICE",
-                payload: { ...state, orientation: randColor, latestScorePos: randColor },
+                payload: { ...state, orientation: randColor, latestScorePos: randColor, practiceCoords: state.practiceCoords, practicePosition: state.practicePosition },
             });
         } else {
             dispatch({
@@ -296,6 +312,20 @@ function App() {
         }
     }
 
+    function handlePracticePosition(): void {
+        dispatch({
+            type: "PRACTICE_POSITION",
+            payload: { ...state, practicePosition: !state.practicePosition },
+        });
+    }
+
+    function handlePracticeCoords(): void {
+        dispatch({
+            type: "PRACTICE_COORDS",
+            payload: { ...state, practiceCoords: !state.practiceCoords },
+        });
+    }
+
     useEffect(() => {
         console.log(state.timer);
         setGmeTimer(state.timer);
@@ -316,7 +346,16 @@ function App() {
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
-                            <Menu state={state} changeOrientation={changeOrientation} startGame={startGame} gameTimer={gameTimer} startPractice={startPractice} endPractice={endPractice} />
+                            <Menu
+                                state={state}
+                                changeOrientation={changeOrientation}
+                                startGame={startGame}
+                                gameTimer={gameTimer}
+                                startPractice={startPractice}
+                                endPractice={endPractice}
+                                handlePracticeCoords={handlePracticeCoords}
+                                handlePracticePosition={handlePracticePosition}
+                            />
                         </Grid>
                     </Grid>
                 </Wrapper>

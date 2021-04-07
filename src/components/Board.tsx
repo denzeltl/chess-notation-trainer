@@ -23,6 +23,8 @@ interface BoardProps {
         active: boolean;
         activePractice: boolean;
         onMenu: boolean;
+        practicePosition: boolean;
+        practiceCoords: boolean;
     };
     changeOrientation: (e: any) => void;
     generatedNotation: string | null;
@@ -57,9 +59,9 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
     return (
         <section className={classes.root}>
             <Chessboard
-                position={state.position}
+                position={state.activePractice ? (state.practicePosition ? "start" : "") : state.position}
                 draggable={false}
-                showNotation={state.notation}
+                showNotation={state.activePractice ? state.practiceCoords : state.notation}
                 onSquareClick={(e) => onSquareClick(e)}
                 orientation={state.orientation}
                 calcWidth={() => width / 2.6}

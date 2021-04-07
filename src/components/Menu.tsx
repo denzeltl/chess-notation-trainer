@@ -69,15 +69,19 @@ interface MenuProps {
         active: boolean;
         activePractice: boolean;
         onMenu: boolean;
+        practicePosition: boolean;
+        practiceCoords: boolean;
     };
     changeOrientation: (color: "white" | "black" | "random") => void;
     startGame: (color: "white" | "black" | "random") => void;
     gameTimer: number;
     startPractice: (color: "white" | "black" | "random") => void;
     endPractice: () => void;
+    handlePracticePosition: () => void;
+    handlePracticeCoords: () => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTimer, startPractice, endPractice }) => {
+const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTimer, startPractice, endPractice, handlePracticePosition, handlePracticeCoords }) => {
     const classes = useStyles();
     const [buttonOrientation, setButtonOrientation] = useState<"white" | "black" | "random">("white");
 
@@ -130,8 +134,16 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                     <>
                         {state.activePractice && (
                             <FormGroup>
-                                <FormControlLabel className={classes.checkboxLabel} control={<Checkbox name="checkedA" color="primary" className={classes.checkbox} />} label="Show Pieces" />
-                                <FormControlLabel className={classes.checkboxLabel} control={<Checkbox name="checkedB" color="primary" className={classes.checkbox} />} label="Show Coordinates" />
+                                <FormControlLabel
+                                    className={classes.checkboxLabel}
+                                    control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
+                                    label="Show Pieces"
+                                />
+                                <FormControlLabel
+                                    className={classes.checkboxLabel}
+                                    control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
+                                    label="Show Coordinates"
+                                />
                             </FormGroup>
                         )}
                         <Grid container item spacing={1}>
