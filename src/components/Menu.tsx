@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Button, Grid, makeStyles, Typography, FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
 import whiteCircle from "../images/white-circle.svg";
 import blackCircle from "../images/black-circle.svg";
@@ -46,9 +46,15 @@ const useStyles = makeStyles((theme) => ({
     },
     practiceButton: {
         "&.MuiButton-containedPrimary": {
-            background: "#543419",
+            background: "#391F09",
             color: "#DEC0A8",
         },
+    },
+    checkboxLabel: {
+        color: "#fff",
+    },
+    checkbox: {
+        color: "#DEC0A8",
     },
 }));
 
@@ -82,15 +88,15 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                     {state.active && (
                         <>
                             <Typography variant="h4" component="p" className={classes.text}>
-                                <AccessTime />
+                                <AccessTime style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Time Left:</span> 0:{gameTimer < 10 ? `0${gameTimer}` : gameTimer}
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
-                                <BarChart />
+                                <BarChart style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Score:</span> {state.gameScore}
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
-                                <FiberManualRecordOutlined />
+                                <FiberManualRecordOutlined style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Side:</span>
                                 {state.orientation === "white" ? (
                                     <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
@@ -104,11 +110,11 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                     {state.activePractice && (
                         <>
                             <Typography variant="h4" component="p" className={classes.text}>
-                                <BarChart />
+                                <BarChart style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Score:</span> {state.practiceScore}
                             </Typography>
                             <Typography variant="h4" component="p" className={classes.text}>
-                                <FiberManualRecordOutlined />
+                                <FiberManualRecordOutlined style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Side:</span>
                                 {state.orientation === "white" ? (
                                     <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
@@ -121,78 +127,86 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                     )}
                 </div>
                 {!state.active && (
-                    <Grid container item spacing={1}>
-                        <Grid item xs={4}>
-                            <Button
-                                color={buttonOrientation === "white" ? "primary" : "secondary"}
-                                className={classes.orientationButton}
-                                variant="contained"
-                                onClick={() => {
-                                    setButtonOrientation("white");
-                                    changeOrientation("white");
-                                }}
-                            >
-                                <div className={classes.buttonTextContainer}>
-                                    <Typography variant="body2" component="p">
-                                        White
-                                    </Typography>
-                                    <img src={whiteCircle} alt="White Circle" className={classes.colorIcon} />
-                                </div>
-                            </Button>
+                    <>
+                        {state.activePractice && (
+                            <FormGroup>
+                                <FormControlLabel className={classes.checkboxLabel} control={<Checkbox name="checkedA" color="primary" className={classes.checkbox} />} label="Show Pieces" />
+                                <FormControlLabel className={classes.checkboxLabel} control={<Checkbox name="checkedB" color="primary" className={classes.checkbox} />} label="Show Coordinates" />
+                            </FormGroup>
+                        )}
+                        <Grid container item spacing={1}>
+                            <Grid item xs={4}>
+                                <Button
+                                    color={buttonOrientation === "white" ? "primary" : "secondary"}
+                                    className={classes.orientationButton}
+                                    variant="contained"
+                                    onClick={() => {
+                                        setButtonOrientation("white");
+                                        changeOrientation("white");
+                                    }}
+                                >
+                                    <div className={classes.buttonTextContainer}>
+                                        <Typography variant="body2" component="p">
+                                            White
+                                        </Typography>
+                                        <img src={whiteCircle} alt="White Circle" className={classes.colorIcon} />
+                                    </div>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Button
+                                    color={buttonOrientation === "random" ? "primary" : "secondary"}
+                                    className={classes.orientationButton}
+                                    variant="contained"
+                                    onClick={() => {
+                                        setButtonOrientation("random");
+                                        changeOrientation("random");
+                                    }}
+                                >
+                                    <div className={classes.buttonTextContainer}>
+                                        <Typography variant="body2" component="p">
+                                            Random
+                                        </Typography>
+                                        <img src={randomCircle} alt="Random Circle" className={classes.colorIcon} />
+                                    </div>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Button
+                                    color={buttonOrientation === "black" ? "primary" : "secondary"}
+                                    className={classes.orientationButton}
+                                    variant="contained"
+                                    onClick={() => {
+                                        setButtonOrientation("black");
+                                        changeOrientation("black");
+                                    }}
+                                >
+                                    <div className={classes.buttonTextContainer}>
+                                        <Typography variant="body2" component="p">
+                                            Black
+                                        </Typography>
+                                        <img src={blackCircle} alt="Black Circle" className={classes.colorIcon} />
+                                    </div>
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    color={state.activePractice ? "primary" : "secondary"}
+                                    className={classes.practiceButton}
+                                    variant="contained"
+                                    onClick={() => startPractice(buttonOrientation)}
+                                    disabled={state.activePractice}
+                                >
+                                    Practice
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button color="secondary" variant="contained" onClick={!state.activePractice ? () => startGame(buttonOrientation) : endPractice}>
+                                    {!state.activePractice ? "Start" : "End Practice"}
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Button
-                                color={buttonOrientation === "random" ? "primary" : "secondary"}
-                                className={classes.orientationButton}
-                                variant="contained"
-                                onClick={() => {
-                                    setButtonOrientation("random");
-                                    changeOrientation("random");
-                                }}
-                            >
-                                <div className={classes.buttonTextContainer}>
-                                    <Typography variant="body2" component="p">
-                                        Random
-                                    </Typography>
-                                    <img src={randomCircle} alt="Random Circle" className={classes.colorIcon} />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Button
-                                color={buttonOrientation === "black" ? "primary" : "secondary"}
-                                className={classes.orientationButton}
-                                variant="contained"
-                                onClick={() => {
-                                    setButtonOrientation("black");
-                                    changeOrientation("black");
-                                }}
-                            >
-                                <div className={classes.buttonTextContainer}>
-                                    <Typography variant="body2" component="p">
-                                        Black
-                                    </Typography>
-                                    <img src={blackCircle} alt="Black Circle" className={classes.colorIcon} />
-                                </div>
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                color={state.activePractice ? "primary" : "secondary"}
-                                className={classes.practiceButton}
-                                variant="contained"
-                                onClick={() => startPractice(buttonOrientation)}
-                                disabled={state.activePractice}
-                            >
-                                Practice
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button color="secondary" variant="contained" onClick={!state.activePractice ? () => startGame(buttonOrientation) : endPractice}>
-                                {!state.activePractice ? "Start" : "End Practice"}
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    </>
                 )}
             </Grid>
         </section>
