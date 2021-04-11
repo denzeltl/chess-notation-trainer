@@ -25,12 +25,17 @@ interface ScoresProps {
     state: {
         latestScore: number;
         gameScore: number;
-        highScore: number;
         orientation: "white" | "black";
         latestScorePos: "white" | "black" | undefined;
         active: boolean;
         activePractice: boolean;
         onMenu: boolean;
+        highScoreWhite: number;
+        recentScoresWhite: number[];
+        recentMistakesWhite: number[];
+        highScoreBlack: number;
+        recentScoresBlack: number[];
+        recentMistakesBlack: number[];
     };
 }
 
@@ -126,6 +131,9 @@ const Scores: React.FC<ScoresProps> = ({ state }) => {
         title: {
             text: "White Scores",
             align: "center",
+        },
+        subtitle: {
+            text: "Highest Score: 20",
         },
     };
     const whiteChartData = [
@@ -229,6 +237,9 @@ const Scores: React.FC<ScoresProps> = ({ state }) => {
             text: "Black Scores",
             align: "center",
         },
+        subtitle: {
+            text: "Highest Score: 20",
+        },
     };
     const blackChartData = [
         {
@@ -243,13 +254,13 @@ const Scores: React.FC<ScoresProps> = ({ state }) => {
 
     return (
         <div className={classes.root}>
-            {state.onMenu && state.gameScore !== 0 && (
+            {state.onMenu && state.latestScorePos && (
                 <>
                     <Typography variant="h4" component="p" className={classes.text}>
-                        <span className={classes.textTitle}>Latest Score:</span> {state.gameScore} ({state.latestScorePos!.charAt(0).toUpperCase() + state.latestScorePos!.slice(1)})
+                        <span className={classes.textTitle}>Latest Score:</span> {state.gameScore} ({state.latestScorePos.charAt(0).toUpperCase() + state.latestScorePos.slice(1)})
                     </Typography>
-                    <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />
-                    <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />
+                    {state.recentScoresWhite.length && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
+                    {state.recentScoresBlack.length && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
                 </>
             )}
         </div>

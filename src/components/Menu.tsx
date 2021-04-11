@@ -62,7 +62,6 @@ interface MenuProps {
     state: {
         timer: number;
         gameScore: number;
-        highScore: number;
         practiceScore: number;
         position: "start" | "";
         orientation: "white" | "black";

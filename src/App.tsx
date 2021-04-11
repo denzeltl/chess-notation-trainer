@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 interface State {
     timer: number;
     latestScore: number;
-    highScore: number;
     gameScore: number;
     practiceScore: number;
     position: "start" | "";
@@ -32,6 +31,12 @@ interface State {
     onMenu: boolean;
     practicePosition: boolean;
     practiceCoords: boolean;
+    highScoreWhite: number;
+    recentScoresWhite: number[];
+    recentMistakesWhite: number[];
+    highScoreBlack: number;
+    recentScoresBlack: number[];
+    recentMistakesBlack: number[];
 }
 
 interface Action {
@@ -68,7 +73,7 @@ function reducer(state: State, action: Action): State {
                 notation: true,
                 timer: 8,
                 active: false,
-                latestScore: payload.gameScore,
+                latestScore: payload.latestScore,
                 onMenu: true,
             };
         case "START_PRACTICE":
@@ -120,7 +125,6 @@ const initialState: State = {
     timer: 8,
     // TODO: timer: 60
     latestScore: 0,
-    highScore: 0,
     gameScore: 0,
     practiceScore: 0,
     position: "start",
@@ -132,6 +136,12 @@ const initialState: State = {
     onMenu: true,
     practicePosition: true,
     practiceCoords: true,
+    highScoreWhite: 0,
+    recentScoresWhite: [],
+    recentMistakesWhite: [],
+    highScoreBlack: 0,
+    recentScoresBlack: [],
+    recentMistakesBlack: [],
 };
 
 function App() {
@@ -222,15 +232,16 @@ function App() {
     }
 
     function startGame(color: "white" | "black" | "random"): void {
-        startCountdown();
         generateNotation();
         if (color === "random") {
             let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
+            startCountdown(randColor);
             dispatch({
                 type: "START_GAME",
                 payload: { ...state, orientation: randColor, latestScorePos: randColor },
             });
         } else {
+            startCountdown(color);
             dispatch({
                 type: "START_GAME",
                 payload: { ...state, orientation: color, latestScorePos: color },
@@ -238,11 +249,20 @@ function App() {
         }
     }
 
-    function endGame(score: number): void {
-        dispatch({
-            type: "END_GAME",
-            payload: { ...state, latestScore: score },
-        });
+    function endGame(score: number, orientation: OrientationType): void {
+        if (orientation === "white") {
+            // TODO: SETUP SCORE FUNCTIONS FOR HISCORE AND RECENTSCORES
+            dispatch({
+                type: "END_GAME",
+                payload: { ...state, latestScore: score },
+            });
+        } else if (orientation === "black") {
+            // TODO: SETUP SCORE FUNCTIONS FOR HISCORE AND RECENTSCORES
+            dispatch({
+                type: "END_GAME",
+                payload: { ...state, latestScore: score },
+            });
+        }
     }
 
     function startPractice(color: "white" | "black" | "random"): void {
@@ -268,7 +288,7 @@ function App() {
         });
     }
 
-    function startCountdown(): void {
+    function startCountdown(color: OrientationType): void {
         const start = setInterval(() => {
             if (state.timer > 0) {
                 dispatch({
@@ -277,7 +297,7 @@ function App() {
                 });
             } else {
                 clearInterval(start);
-                endGame(state.gameScore);
+                endGame(state.gameScore, color);
             }
         }, 1000);
     }
