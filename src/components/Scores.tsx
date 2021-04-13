@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Typography } from "@material-ui/core";
 import Chart from "react-apexcharts";
 
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface ScoresProps {
     state: {
-        latestScore: number;
         gameScore: number;
         orientation: "white" | "black";
         latestScorePos: "white" | "black" | undefined;
@@ -37,9 +36,10 @@ interface ScoresProps {
         recentScoresBlack: number[];
         recentMistakesBlack: number[];
     };
+    updateScores: (orientation: "white" | "black", score: number) => void;
 }
 
-const Scores: React.FC<ScoresProps> = ({ state }) => {
+const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     const classes = useStyles();
 
     const whiteChartOptions = {
@@ -251,6 +251,12 @@ const Scores: React.FC<ScoresProps> = ({ state }) => {
             data: [5, 2, 7, 0, 10],
         },
     ];
+
+    useEffect(() => {
+        updateScores(state.orientation, state.gameScore);
+    }, [state.onMenu]);
+
+    console.log(state);
 
     return (
         <div className={classes.root}>

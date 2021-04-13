@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface State {
     timer: number;
-    latestScore: number;
     gameScore: number;
     practiceScore: number;
     position: "start" | "";
@@ -40,7 +39,18 @@ interface State {
 }
 
 interface Action {
-    type: "CHANGE_ORIENTATION" | "START_GAME" | "END_GAME" | "START_PRACTICE" | "END_PRACTICE" | "START_COUNTDOWN" | "INC_SCORE" | "INC_SCORE_PRACTICE" | "PRACTICE_POSITION" | "PRACTICE_COORDS";
+    type:
+        | "CHANGE_ORIENTATION"
+        | "START_GAME"
+        | "END_GAME"
+        | "START_PRACTICE"
+        | "END_PRACTICE"
+        | "START_COUNTDOWN"
+        | "INC_SCORE"
+        | "INC_SCORE_PRACTICE"
+        | "PRACTICE_POSITION"
+        | "PRACTICE_COORDS"
+        | "UPDATE_SCORES";
     payload: State;
 }
 
@@ -73,7 +83,6 @@ function reducer(state: State, action: Action): State {
                 notation: true,
                 timer: 8,
                 active: false,
-                latestScore: payload.latestScore,
                 onMenu: true,
             };
         case "START_PRACTICE":
@@ -116,6 +125,12 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 practiceCoords: payload.practiceCoords,
             };
+        case "UPDATE_SCORES":
+            return {
+                ...state,
+                recentScoresWhite: payload.recentScoresWhite,
+                highScoreWhite: payload.highScoreWhite,
+            };
         default:
             return state;
     }
@@ -124,7 +139,6 @@ function reducer(state: State, action: Action): State {
 const initialState: State = {
     timer: 8,
     // TODO: timer: 60
-    latestScore: 0,
     gameScore: 0,
     practiceScore: 0,
     position: "start",
@@ -214,7 +228,7 @@ function App() {
         "h8",
     ];
     const [generatedNotation, setGeneratedNotation] = useState<string | null>(null);
-    const [gameTimer, setGmeTimer] = useState<number>(0);
+    const [gameTimer, setGameTimer] = useState<number>(0);
 
     function changeOrientation(color: "white" | "black" | "random"): void {
         if (color === "random") {
@@ -233,15 +247,14 @@ function App() {
 
     function startGame(color: "white" | "black" | "random"): void {
         generateNotation();
+        startCountdown();
         if (color === "random") {
             let randColor: OrientationType = ["white", "black"][Math.floor(Math.random() * 2)] as OrientationType;
-            startCountdown(randColor);
             dispatch({
                 type: "START_GAME",
                 payload: { ...state, orientation: randColor, latestScorePos: randColor },
             });
         } else {
-            startCountdown(color);
             dispatch({
                 type: "START_GAME",
                 payload: { ...state, orientation: color, latestScorePos: color },
@@ -249,20 +262,11 @@ function App() {
         }
     }
 
-    function endGame(score: number, orientation: OrientationType): void {
-        if (orientation === "white") {
-            // TODO: SETUP SCORE FUNCTIONS FOR HISCORE AND RECENTSCORES
-            dispatch({
-                type: "END_GAME",
-                payload: { ...state, latestScore: score },
-            });
-        } else if (orientation === "black") {
-            // TODO: SETUP SCORE FUNCTIONS FOR HISCORE AND RECENTSCORES
-            dispatch({
-                type: "END_GAME",
-                payload: { ...state, latestScore: score },
-            });
-        }
+    function endGame(): void {
+        dispatch({
+            type: "END_GAME",
+            payload: { ...state },
+        });
     }
 
     function startPractice(color: "white" | "black" | "random"): void {
@@ -288,7 +292,7 @@ function App() {
         });
     }
 
-    function startCountdown(color: OrientationType): void {
+    function startCountdown(): void {
         const start = setInterval(() => {
             if (state.timer > 0) {
                 dispatch({
@@ -297,7 +301,7 @@ function App() {
                 });
             } else {
                 clearInterval(start);
-                endGame(state.gameScore, color);
+                endGame();
             }
         }, 1000);
     }
@@ -307,7 +311,6 @@ function App() {
         if (randomNotation !== generatedNotation) {
             setGeneratedNotation(randomNotation);
         } else {
-            console.log("RERUN");
             generateNotation();
         }
     }
@@ -337,6 +340,20 @@ function App() {
         }
     }
 
+    function updateScores(orientation: OrientationType, score: number): void {
+        if (orientation === "white") {
+            dispatch({
+                type: "UPDATE_SCORES",
+                payload: { ...state, recentScoresWhite: [...state.recentScoresWhite, score], highScoreWhite: score > state.highScoreWhite ? score : state.highScoreWhite },
+            });
+        } else if (orientation === "black") {
+            dispatch({
+                type: "UPDATE_SCORES",
+                payload: { ...state, recentScoresBlack: [...state.recentScoresBlack, score], highScoreBlack: score > state.highScoreBlack ? score : state.highScoreBlack },
+            });
+        }
+    }
+
     function handlePracticePosition(): void {
         dispatch({
             type: "PRACTICE_POSITION",
@@ -352,8 +369,7 @@ function App() {
     }
 
     useEffect(() => {
-        console.log(state.timer);
-        setGmeTimer(state.timer);
+        setGameTimer(state.timer);
     }, [state]);
 
     return (
@@ -365,7 +381,7 @@ function App() {
                 <Wrapper>
                     <Grid container spacing={4}>
                         <Grid item xs={3}>
-                            <Scores state={state} />
+                            <Scores state={state} updateScores={updateScores} />
                         </Grid>
                         <Grid item xs={6}>
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
