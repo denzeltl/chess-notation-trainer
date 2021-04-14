@@ -135,17 +135,17 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             align: "center",
         },
         subtitle: {
-            text: "Highest Score: 20",
+            text: `Highest Score: ${state.highScoreWhite}`,
         },
     };
     const whiteChartData = [
         {
             name: "Score",
-            data: [30, 25, 22, 40, 19],
+            data: state.recentScoresWhite,
         },
         {
             name: "Mistakes",
-            data: [5, 2, 7, 0, 10],
+            data: state.recentScoresWhite,
         },
     ];
 
@@ -240,17 +240,17 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             align: "center",
         },
         subtitle: {
-            text: "Highest Score: 20",
+            text: `Highest Score: ${state.highScoreBlack}`,
         },
     };
     const blackChartData = [
         {
             name: "Score",
-            data: [30, 25, 22, 40, 19],
+            data: state.recentScoresBlack,
         },
         {
             name: "Mistakes",
-            data: [5, 2, 7, 0, 10],
+            data: state.recentScoresBlack,
         },
     ];
 
