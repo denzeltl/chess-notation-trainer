@@ -36,6 +36,7 @@ interface State {
     highScoreBlack: number;
     recentScoresBlack: number[];
     recentMistakesBlack: number[];
+    updateScores: boolean;
 }
 
 interface Action {
@@ -84,6 +85,7 @@ function reducer(state: State, action: Action): State {
                 timer: 8,
                 active: false,
                 onMenu: true,
+                updateScores: true,
             };
         case "START_PRACTICE":
             return {
@@ -130,6 +132,9 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 recentScoresWhite: payload.recentScoresWhite,
                 highScoreWhite: payload.highScoreWhite,
+                recentScoresBlack: payload.recentScoresBlack,
+                highScoreBlack: payload.highScoreBlack,
+                updateScores: false,
             };
         default:
             return state;
@@ -156,6 +161,7 @@ const initialState: State = {
     highScoreBlack: 0,
     recentScoresBlack: [],
     recentMistakesBlack: [],
+    updateScores: false,
 };
 
 function App() {

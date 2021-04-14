@@ -29,12 +29,14 @@ interface ScoresProps {
         active: boolean;
         activePractice: boolean;
         onMenu: boolean;
+        timer: number;
         highScoreWhite: number;
         recentScoresWhite: number[];
         recentMistakesWhite: number[];
         highScoreBlack: number;
         recentScoresBlack: number[];
         recentMistakesBlack: number[];
+        updateScores: boolean;
     };
     updateScores: (orientation: "white" | "black", score: number) => void;
 }
@@ -253,8 +255,10 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     ];
 
     useEffect(() => {
-        updateScores(state.orientation, state.gameScore);
-    }, [state.onMenu]);
+        if (state.updateScores) {
+            updateScores(state.orientation, state.gameScore);
+        }
+    }, [state.updateScores]);
 
     console.log(state);
 
