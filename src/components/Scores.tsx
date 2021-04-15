@@ -146,7 +146,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         {
             name: "Mistakes",
-            data: state.recentScoresWhite,
+            data: state.recentMistakesWhite,
         },
     ];
 
@@ -251,7 +251,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         {
             name: "Mistakes",
-            data: state.recentScoresBlack,
+            data: state.recentMistakesBlack,
         },
     ];
 
