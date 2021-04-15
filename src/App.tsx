@@ -348,14 +348,28 @@ function App() {
 
     function updateScores(orientation: OrientationType, score: number): void {
         if (orientation === "white") {
+            const whiteScores: number[] = [...state.recentScoresWhite];
+            if (whiteScores.length === 20) {
+                whiteScores.shift();
+                whiteScores.push(score);
+            } else {
+                whiteScores.push(score);
+            }
             dispatch({
                 type: "UPDATE_SCORES",
-                payload: { ...state, recentScoresWhite: [...state.recentScoresWhite, score], highScoreWhite: score > state.highScoreWhite ? score : state.highScoreWhite },
+                payload: { ...state, recentScoresWhite: whiteScores, highScoreWhite: score > state.highScoreWhite ? score : state.highScoreWhite },
             });
         } else if (orientation === "black") {
+            const blackScores: number[] = [...state.recentScoresBlack];
+            if (blackScores.length === 20) {
+                blackScores.shift();
+                blackScores.push(score);
+            } else {
+                blackScores.push(score);
+            }
             dispatch({
                 type: "UPDATE_SCORES",
-                payload: { ...state, recentScoresBlack: [...state.recentScoresBlack, score], highScoreBlack: score > state.highScoreBlack ? score : state.highScoreBlack },
+                payload: { ...state, recentScoresBlack: blackScores, highScoreBlack: score > state.highScoreBlack ? score : state.highScoreBlack },
             });
         }
     }
