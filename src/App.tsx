@@ -37,6 +37,7 @@ interface State {
     recentScoresBlack: number[];
     recentMistakesBlack: number[];
     updateScores: boolean;
+    gameMistakes: number;
 }
 
 interface Action {
@@ -51,7 +52,8 @@ interface Action {
         | "INC_SCORE_PRACTICE"
         | "PRACTICE_POSITION"
         | "PRACTICE_COORDS"
-        | "UPDATE_SCORES";
+        | "UPDATE_SCORES"
+        | "INC_MISTAKE";
     payload: State;
 }
 
@@ -75,6 +77,7 @@ function reducer(state: State, action: Action): State {
                 orientation: payload.orientation,
                 latestScorePos: payload.latestScorePos,
                 gameScore: 0,
+                gameMistakes: 0,
                 onMenu: false,
             };
         case "END_GAME":
@@ -132,9 +135,16 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 recentScoresWhite: payload.recentScoresWhite,
                 highScoreWhite: payload.highScoreWhite,
+                recentMistakesWhite: payload.recentMistakesWhite,
                 recentScoresBlack: payload.recentScoresBlack,
                 highScoreBlack: payload.highScoreBlack,
+                recentMistakesBlack: payload.recentMistakesBlack,
                 updateScores: false,
+            };
+        case "INC_MISTAKE":
+            return {
+                ...state,
+                gameMistakes: payload.gameMistakes,
             };
         default:
             return state;
@@ -162,6 +172,7 @@ const initialState: State = {
     recentScoresBlack: [],
     recentMistakesBlack: [],
     updateScores: false,
+    gameMistakes: 0,
 };
 
 function App() {
@@ -330,7 +341,10 @@ function App() {
                     payload: { ...state, gameScore: (state.gameScore += 1) },
                 });
             } else {
-                console.log(e);
+                dispatch({
+                    type: "INC_MISTAKE",
+                    payload: { ...state, gameMistakes: (state.gameMistakes += 1) },
+                });
             }
         }
         if (state.activePractice) {
@@ -346,7 +360,7 @@ function App() {
         }
     }
 
-    function updateScores(orientation: OrientationType, score: number): void {
+    function updateScores(orientation: OrientationType, score: number, mistakes: number): void {
         if (orientation === "white") {
             const whiteScores: number[] = [...state.recentScoresWhite];
             if (whiteScores.length === 20) {
@@ -355,9 +369,16 @@ function App() {
             } else {
                 whiteScores.push(score);
             }
+            const whiteMistakes: number[] = [...state.recentMistakesWhite];
+            if (whiteMistakes.length === 20) {
+                whiteMistakes.shift();
+                whiteMistakes.push(mistakes);
+            } else {
+                whiteMistakes.push(mistakes);
+            }
             dispatch({
                 type: "UPDATE_SCORES",
-                payload: { ...state, recentScoresWhite: whiteScores, highScoreWhite: score > state.highScoreWhite ? score : state.highScoreWhite },
+                payload: { ...state, recentScoresWhite: whiteScores, highScoreWhite: score > state.highScoreWhite ? score : state.highScoreWhite, recentMistakesWhite: whiteMistakes },
             });
         } else if (orientation === "black") {
             const blackScores: number[] = [...state.recentScoresBlack];
@@ -367,9 +388,16 @@ function App() {
             } else {
                 blackScores.push(score);
             }
+            const blackistakes: number[] = [...state.recentMistakesBlack];
+            if (blackistakes.length === 20) {
+                blackistakes.shift();
+                blackistakes.push(mistakes);
+            } else {
+                blackistakes.push(mistakes);
+            }
             dispatch({
                 type: "UPDATE_SCORES",
-                payload: { ...state, recentScoresBlack: blackScores, highScoreBlack: score > state.highScoreBlack ? score : state.highScoreBlack },
+                payload: { ...state, recentScoresBlack: blackScores, highScoreBlack: score > state.highScoreBlack ? score : state.highScoreBlack, recentMistakesBlack: blackistakes },
             });
         }
     }
