@@ -131,6 +131,12 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                 enabled: false,
             },
         },
+        yaxis: {
+            tickAmount: 5,
+            min: 0,
+            forceNiceScale: true,
+            decimalsInFloat: 0,
+        },
         title: {
             text: "White Scores",
             align: "center",
@@ -235,6 +241,12 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             tooltip: {
                 enabled: false,
             },
+        },
+        yaxis: {
+            tickAmount: 5,
+            min: 0,
+            forceNiceScale: true,
+            decimalsInFloat: 0,
         },
         title: {
             text: "Black Scores",
