@@ -105,6 +105,11 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         tooltip: {
             shared: true,
+            y: {
+                formatter: function (val: number) {
+                    return val;
+                },
+            },
             x: {
                 show: false,
             },
@@ -216,6 +221,11 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         tooltip: {
             shared: true,
+            y: {
+                formatter: function (val: number) {
+                    return val;
+                },
+            },
             x: {
                 show: false,
             },
