@@ -38,6 +38,7 @@ interface State {
     recentMistakesBlack: number[];
     updateScores: boolean;
     gameMistakes: number;
+    boxShadow: string;
 }
 
 interface Action {
@@ -173,6 +174,7 @@ const initialState: State = {
     recentMistakesBlack: [],
     updateScores: false,
     gameMistakes: 0,
+    boxShadow: "none",
 };
 
 function App() {
@@ -336,11 +338,13 @@ function App() {
         if (state.active) {
             if (e === generatedNotation) {
                 generateNotation();
+                lightUpBoard("green");
                 dispatch({
                     type: "INC_SCORE",
                     payload: { ...state, gameScore: (state.gameScore += 1) },
                 });
             } else {
+                lightUpBoard("red");
                 dispatch({
                     type: "INC_MISTAKE",
                     payload: { ...state, gameMistakes: (state.gameMistakes += 1) },
@@ -350,14 +354,24 @@ function App() {
         if (state.activePractice) {
             if (e === generatedNotation) {
                 generateNotation();
+                lightUpBoard("green");
                 dispatch({
                     type: "INC_SCORE_PRACTICE",
                     payload: { ...state, practiceScore: (state.practiceScore += 1) },
                 });
             } else {
-                console.log(e);
+                lightUpBoard("red");
             }
         }
+    }
+
+    function lightUpBoard(color: string): void {
+        setTimeout(() => {
+            dispatch({
+                type: "LIGHTUP_BOARD",
+                payload: { ...state, boxShadow: color === "green" ? "0 0 30px #42b347" : "0 0 30px #ef4a4a" },
+            });
+        }, 400);
     }
 
     function updateScores(orientation: OrientationType, score: number, mistakes: number): void {

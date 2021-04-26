@@ -25,6 +25,7 @@ interface BoardProps {
         onMenu: boolean;
         practicePosition: boolean;
         practiceCoords: boolean;
+        boxShadow: string;
     };
     changeOrientation: (e: any) => void;
     generatedNotation: string | null;
@@ -65,7 +66,7 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
                 onSquareClick={(e) => onSquareClick(e)}
                 orientation={state.orientation}
                 calcWidth={() => width / 2.6}
-                boardStyle={{ cursor: state.active || state.activePractice ? "pointer" : "default" }}
+                boardStyle={{ cursor: state.active || state.activePractice ? "pointer" : "default", boxShadow: state.boxShadow }}
             />
             <Center generatedNotation={generatedNotation} onMenu={state.onMenu} />
         </section>
