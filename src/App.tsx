@@ -54,7 +54,8 @@ interface Action {
         | "PRACTICE_POSITION"
         | "PRACTICE_COORDS"
         | "UPDATE_SCORES"
-        | "INC_MISTAKE";
+        | "INC_MISTAKE"
+        | "LIGHTUP_BOARD";
     payload: State;
 }
 
@@ -146,6 +147,11 @@ function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 gameMistakes: payload.gameMistakes,
+            };
+        case "LIGHTUP_BOARD":
+            return {
+                ...state,
+                boxShadow: payload.boxShadow,
             };
         default:
             return state;
@@ -366,12 +372,17 @@ function App() {
     }
 
     function lightUpBoard(color: string): void {
+        dispatch({
+            type: "LIGHTUP_BOARD",
+            payload: { ...state, boxShadow: color === "green" ? "0 0 30px #42b347" : "0 0 30px #ef4a4a" },
+        });
+
         setTimeout(() => {
             dispatch({
                 type: "LIGHTUP_BOARD",
-                payload: { ...state, boxShadow: color === "green" ? "0 0 30px #42b347" : "0 0 30px #ef4a4a" },
+                payload: { ...state, boxShadow: "none" },
             });
-        }, 400);
+        }, 250);
     }
 
     function updateScores(orientation: OrientationType, score: number, mistakes: number): void {
