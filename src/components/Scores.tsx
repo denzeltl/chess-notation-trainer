@@ -283,8 +283,6 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         }
     }, [state.updateScores]);
 
-    console.log(state);
-
     return (
         <div className={classes.root}>
             {state.onMenu && state.latestScorePos && (

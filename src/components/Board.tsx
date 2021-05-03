@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import Chessboard from "chessboardjsx";
 import Center from "./Center";
@@ -33,29 +33,16 @@ interface BoardProps {
 }
 
 interface windowDimension {
-    width: number;
-}
-
-function getWindowDimensions(): windowDimension {
-    const { innerWidth: width } = window;
-    return {
-        width,
-    };
+    screenWidth: number;
+    screenHeight: number;
 }
 
 const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }) => {
     const classes = useStyles();
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-    const { width } = windowDimensions;
 
-    useEffect(() => {
-        function handleResize() {
-            setWindowDimensions(getWindowDimensions());
-        }
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    const calcWidth = ({ screenWidth, screenHeight }: windowDimension): number => {
+        return (screenWidth || screenHeight) < 1800 ? ((screenWidth || screenHeight) < 550 ? screenWidth : 500) : 600;
+    };
 
     return (
         <section className={classes.root}>
@@ -65,7 +52,7 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
                 showNotation={state.activePractice ? state.practiceCoords : state.notation}
                 onSquareClick={(e) => onSquareClick(e)}
                 orientation={state.orientation}
-                calcWidth={() => width / 2.6}
+                calcWidth={calcWidth}
                 boardStyle={{ cursor: state.active || state.activePractice ? "pointer" : "default", boxShadow: state.boxShadow }}
             />
             <Center generatedNotation={generatedNotation} onMenu={state.onMenu} />

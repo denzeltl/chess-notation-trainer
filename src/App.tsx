@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff",
         textAlign: "center",
         padding: "3rem 0",
+        fontSize: "2.5rem",
     },
 }));
 
@@ -87,7 +88,7 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 position: "start",
                 notation: true,
-                timer: 8,
+                timer: 30,
                 active: false,
                 onMenu: true,
                 updateScores: true,
@@ -159,8 +160,7 @@ function reducer(state: State, action: Action): State {
 }
 
 const initialState: State = {
-    timer: 8,
-    // TODO: timer: 60
+    timer: 30,
     gameScore: 0,
     practiceScore: 0,
     position: "start",
@@ -452,11 +452,12 @@ function App() {
                     Chess Notation Trainer
                 </Typography>
                 <Wrapper>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={6}>
+                        <Grid item xs={1}></Grid>
                         <Grid item xs={3}>
                             <Scores state={state} updateScores={updateScores} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
                         <Grid item xs={3}>
@@ -471,6 +472,7 @@ function App() {
                                 handlePracticePosition={handlePracticePosition}
                             />
                         </Grid>
+                        <Grid item xs={1}></Grid>
                     </Grid>
                 </Wrapper>
             </main>
