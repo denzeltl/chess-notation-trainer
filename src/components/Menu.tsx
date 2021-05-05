@@ -13,17 +13,21 @@ const useStyles = makeStyles((theme) => ({
     rootContainer: {
         height: "100%",
     },
+    formGroup: {
+        marginBottom: "1rem",
+    },
     text: {
         color: "#fff",
         display: "flex",
         alignItems: "center",
-        marginBottom: "1.5rem",
+        marginBottom: "1rem",
+        fontSize: "1.825rem",
         "&:last-child": {
             marginBottom: "0",
         },
     },
     textTitle: {
-        fontSize: "1.4rem",
+        fontSize: "1.225rem",
         margin: "0 1rem 0 0.5rem",
     },
     orientationButton: {
@@ -42,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
     colorIconLabel: {
         marginRight: "8px",
-        width: "22px",
+        width: "18px",
     },
     practiceButton: {
         "&.MuiButton-containedPrimary": {
@@ -52,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     },
     checkboxLabel: {
         color: "#fff",
+        "& .MuiTypography-body1": {
+            fontSize: "0.875rem",
+        },
     },
     checkbox: {
         color: "#DEC0A8",
@@ -131,21 +138,23 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                 </div>
                 {!state.active && (
                     <>
-                        {state.activePractice && (
-                            <FormGroup>
-                                <FormControlLabel
-                                    className={classes.checkboxLabel}
-                                    control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
-                                    label="Show Pieces"
-                                />
-                                <FormControlLabel
-                                    className={classes.checkboxLabel}
-                                    control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
-                                    label="Show Coordinates"
-                                />
-                            </FormGroup>
-                        )}
                         <Grid container item spacing={1}>
+                            {state.activePractice && (
+                                <Grid item xs={12}>
+                                    <FormGroup className={classes.formGroup}>
+                                        <FormControlLabel
+                                            className={classes.checkboxLabel}
+                                            control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
+                                            label="Show Pieces"
+                                        />
+                                        <FormControlLabel
+                                            className={classes.checkboxLabel}
+                                            control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
+                                            label="Show Coordinates"
+                                        />
+                                    </FormGroup>
+                                </Grid>
+                            )}
                             <Grid item xs={4}>
                                 <Button
                                     color={buttonOrientation === "white" ? "primary" : "secondary"}

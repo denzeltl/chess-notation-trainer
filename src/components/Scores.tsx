@@ -1,23 +1,31 @@
 import React, { useEffect } from "react";
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, Grid } from "@material-ui/core";
 import Chart from "react-apexcharts";
+import whiteCircle from "../images/white-circle.svg";
+import blackCircle from "../images/black-circle.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        height: "100%",
         [theme.breakpoints.down("xl")]: {},
+    },
+    rootContainer: {
+        height: "100%",
     },
     text: {
         color: "#fff",
         display: "flex",
         alignItems: "center",
-        marginBottom: "1.5rem",
-        "&:last-child": {
-            marginBottom: "0",
-        },
+        fontSize: "1.825rem",
+        marginBottom: "1rem",
     },
     textTitle: {
-        fontSize: "1.4rem",
-        margin: "0 1rem 0 0.5rem",
+        fontSize: "1.225rem",
+        margin: "0 1rem 0 0",
+    },
+    colorIconLabel: {
+        marginRight: "8px",
+        width: "18px",
     },
 }));
 
@@ -48,7 +56,6 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     const whiteChartOptions = {
         chart: {
             id: "white-scores",
-            background: "#fff",
             animations: {
                 enabled: false,
             },
@@ -102,6 +109,9 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             show: true,
             width: 3,
             dashArray: [0, 6],
+        },
+        theme: {
+            mode: "dark",
         },
         tooltip: {
             shared: true,
@@ -164,7 +174,6 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     const blackChartOptions = {
         chart: {
             id: "black-scores",
-            background: "#fff",
             animations: {
                 enabled: false,
             },
@@ -218,6 +227,9 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             show: true,
             width: 3,
             dashArray: [0, 6],
+        },
+        theme: {
+            mode: "dark",
         },
         tooltip: {
             shared: true,
@@ -286,13 +298,23 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     return (
         <div className={classes.root}>
             {state.onMenu && state.latestScorePos && (
-                <>
-                    <Typography variant="h4" component="p" className={classes.text}>
-                        <span className={classes.textTitle}>Latest Score:</span> {state.gameScore} ({state.latestScorePos.charAt(0).toUpperCase() + state.latestScorePos.slice(1)})
-                    </Typography>
-                    {state.recentScoresWhite.length && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
-                    {state.recentScoresBlack.length && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
-                </>
+                <Grid className={classes.rootContainer} container direction="column" justify="space-between">
+                    <>
+                        <Typography variant="h4" component="p" className={classes.text}>
+                            <span className={classes.textTitle}>Latest Score:</span>
+                            {state.latestScorePos === "white" ? (
+                                <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
+                            ) : (
+                                <img src={blackCircle} alt="Black Circle" className={classes.colorIconLabel} />
+                            )}
+                            {state.gameScore}
+                        </Typography>
+                    </>
+                    <>
+                        {state.recentScoresWhite.length && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
+                        {state.recentScoresBlack.length && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
+                    </>
+                </Grid>
             )}
         </div>
     );
