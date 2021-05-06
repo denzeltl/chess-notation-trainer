@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     },
     rootContainer: {
         height: "100%",
+        "& .apexcharts-tooltip": {
+            background: "#18253e",
+        },
     },
     text: {
         color: "#fff",
@@ -68,6 +71,8 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             zoom: {
                 enabled: false,
             },
+            background: "#3c4b67",
+            fontFamily: "Montserrat, Roboto, Helvetica, Arial, sans-serif",
         },
         colors: ["#B68963", "#ef4a4a"],
         legend: {
@@ -77,9 +82,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             position: "bottom",
             horizontalAlign: "center",
             floating: false,
-            fontSize: "14px",
-            offsetX: 0,
-            offsetY: 0,
+            fontSize: "12px",
             markers: {
                 width: 12,
                 height: 12,
@@ -87,6 +90,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
             itemMargin: {
                 horizontal: 15,
+                vertical: 10,
             },
             onItemClick: {
                 toggleDataSeries: false,
@@ -105,10 +109,30 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                 sizeOffset: 2,
             },
         },
+        grid: {
+            show: true,
+            borderColor: "#7791c2",
+            strokeDashArray: 0,
+            position: "back",
+            xaxis: {
+                lines: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            padding: {
+                right: 20,
+                left: 15,
+            },
+        },
         stroke: {
             show: true,
-            width: 3,
-            dashArray: [0, 6],
+            width: 4,
+            dashArray: [0, 5],
         },
         theme: {
             mode: "dark",
@@ -123,18 +147,16 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             x: {
                 show: false,
             },
+            style: {
+                fontSize: "12px",
+            },
         },
         xaxis: {
             labels: {
                 show: false,
             },
             axisBorder: {
-                show: true,
-                color: "#78909C",
-                height: 1,
-                width: "100%",
-                offsetX: 0,
-                offsetY: 0,
+                show: false,
             },
             axisTicks: {
                 show: false,
@@ -147,17 +169,29 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
         },
         yaxis: {
-            tickAmount: 5,
+            tickAmount: 3,
             min: 0,
             forceNiceScale: true,
             decimalsInFloat: 0,
+            labels: {
+                style: {
+                    fontSize: "12px",
+                },
+            },
         },
         title: {
             text: "White Scores",
             align: "center",
+            margin: 5,
+            offsetY: 10,
         },
         subtitle: {
-            text: `Highest Score: ${state.highScoreWhite}`,
+            text: `Highscore: ${state.highScoreWhite}`,
+            offsetX: 10,
+            style: {
+                fontSize: "12px",
+                fontWeight: "bold",
+            },
         },
     };
     const whiteChartData = [
@@ -186,6 +220,8 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             zoom: {
                 enabled: false,
             },
+            background: "#3c4b67",
+            fontFamily: "Montserrat, Roboto, Helvetica, Arial, sans-serif",
         },
         colors: ["#B68963", "#ef4a4a"],
         legend: {
@@ -195,9 +231,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             position: "bottom",
             horizontalAlign: "center",
             floating: false,
-            fontSize: "14px",
-            offsetX: 0,
-            offsetY: 0,
+            fontSize: "12px",
             markers: {
                 width: 12,
                 height: 12,
@@ -205,6 +239,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
             itemMargin: {
                 horizontal: 15,
+                vertical: 10,
             },
             onItemClick: {
                 toggleDataSeries: false,
@@ -223,10 +258,29 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                 sizeOffset: 2,
             },
         },
+        grid: {
+            show: true,
+            strokeDashArray: 5,
+            position: "back",
+            xaxis: {
+                lines: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: true,
+                },
+            },
+            padding: {
+                right: 20,
+                left: 15,
+            },
+        },
         stroke: {
             show: true,
-            width: 3,
-            dashArray: [0, 6],
+            width: 4,
+            dashArray: [0, 5],
         },
         theme: {
             mode: "dark",
@@ -241,18 +295,16 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             x: {
                 show: false,
             },
+            style: {
+                fontSize: "12px",
+            },
         },
         xaxis: {
             labels: {
                 show: false,
             },
             axisBorder: {
-                show: true,
-                color: "#78909C",
-                height: 1,
-                width: "100%",
-                offsetX: 0,
-                offsetY: 0,
+                show: false,
             },
             axisTicks: {
                 show: false,
@@ -265,17 +317,29 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
         },
         yaxis: {
-            tickAmount: 5,
+            tickAmount: 3,
             min: 0,
             forceNiceScale: true,
             decimalsInFloat: 0,
+            labels: {
+                style: {
+                    fontSize: "12px",
+                },
+            },
         },
         title: {
             text: "Black Scores",
             align: "center",
+            margin: 5,
+            offsetY: 10,
         },
         subtitle: {
-            text: `Highest Score: ${state.highScoreBlack}`,
+            text: `Highscore: ${state.highScoreBlack}`,
+            offsetX: 10,
+            style: {
+                fontSize: "12px",
+                fontWeight: "bold",
+            },
         },
     };
     const blackChartData = [
