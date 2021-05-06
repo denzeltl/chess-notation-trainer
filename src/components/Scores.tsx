@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
         fontSize: "1.825rem",
-        marginBottom: "1rem",
+        marginBottom: "1.5rem",
     },
     textTitle: {
         fontSize: "1.225rem",
@@ -298,7 +298,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
     return (
         <div className={classes.root}>
             {state.onMenu && state.latestScorePos && (
-                <Grid className={classes.rootContainer} container direction="column" justify="space-between">
+                <Grid className={classes.rootContainer} container direction="column">
                     <>
                         <Typography variant="h4" component="p" className={classes.text}>
                             <span className={classes.textTitle}>Latest Score:</span>
@@ -311,8 +311,8 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                         </Typography>
                     </>
                     <>
-                        {state.recentScoresWhite.length && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
-                        {state.recentScoresBlack.length && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
+                        {state.recentScoresWhite.length !== 0 && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
+                        {state.recentScoresBlack.length !== 0 && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
                     </>
                 </Grid>
             )}
