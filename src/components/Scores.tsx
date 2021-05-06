@@ -100,8 +100,10 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
         },
         markers: {
-            size: 4,
-            strokeWidth: 2,
+            size: 3,
+            strokeColors: "#fff",
+            strokeWidth: 1,
+            strokeOpacity: 0.5,
             onClick: undefined,
             showNullDataPoints: true,
             hover: {
@@ -131,7 +133,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         stroke: {
             show: true,
-            width: 4,
+            width: 3,
             dashArray: [0, 5],
         },
         theme: {
@@ -249,8 +251,10 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
             },
         },
         markers: {
-            size: 4,
-            strokeWidth: 2,
+            size: 3,
+            strokeColors: "#fff",
+            strokeWidth: 1,
+            strokeOpacity: 0.5,
             onClick: undefined,
             showNullDataPoints: true,
             hover: {
@@ -260,7 +264,8 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         grid: {
             show: true,
-            strokeDashArray: 5,
+            borderColor: "#7791c2",
+            strokeDashArray: 0,
             position: "back",
             xaxis: {
                 lines: {
@@ -279,7 +284,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         },
         stroke: {
             show: true,
-            width: 4,
+            width: 3,
             dashArray: [0, 5],
         },
         theme: {
