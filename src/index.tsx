@@ -31,8 +31,8 @@ const theme = createMuiTheme({
             xs: 0,
             sm: 480,
             md: 768,
-            lg: 992,
-            xl: 1200,
+            lg: 1250,
+            xl: 1450,
         },
     },
     overrides: {

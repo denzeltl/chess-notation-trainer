@@ -41,7 +41,18 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
     const classes = useStyles();
 
     const calcWidth = ({ screenWidth, screenHeight }: windowDimension): number => {
-        return (screenWidth || screenHeight) < 1800 ? ((screenWidth || screenHeight) < 550 ? screenWidth : 500) : 600;
+        if ((screenWidth || screenHeight) > 1750) {
+            return 600;
+        } else if ((screenWidth || screenHeight) > 1600) {
+            return 550;
+        } else if ((screenWidth || screenHeight) > 1450) {
+            return 500;
+        } else if ((screenWidth || screenHeight) > 1200) {
+            return 500;
+        } else {
+            return 400;
+        }
+        // return (screenWidth || screenHeight) < 1600 ? ((screenWidth || screenHeight) < 1400 ? screenWidth : (screenWidth || screenHeight) < 550 ? screenWidth : 500) : 550;
     };
 
     return (

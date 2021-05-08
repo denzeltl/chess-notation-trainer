@@ -452,15 +452,14 @@ function App() {
                     Chess Notation Trainer
                 </Typography>
                 <Wrapper>
-                    <Grid container spacing={6}>
-                        <Grid item xs={1}></Grid>
-                        <Grid item xs={3}>
+                    <Grid container spacing={6} justify="center">
+                        <Grid item xl={3} lg={4}>
                             <Scores state={state} updateScores={updateScores} />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item lg={4}>
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xl={3} lg={4}>
                             <Menu
                                 state={state}
                                 changeOrientation={changeOrientation}
@@ -472,7 +471,6 @@ function App() {
                                 handlePracticePosition={handlePracticePosition}
                             />
                         </Grid>
-                        <Grid item xs={1}></Grid>
                     </Grid>
                 </Wrapper>
             </main>

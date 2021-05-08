@@ -8,7 +8,9 @@ import randomCircle from "../images/random-circle.svg";
 const useStyles = makeStyles((theme) => ({
     root: {
         height: "100%",
-        [theme.breakpoints.down("xl")]: {},
+        [theme.breakpoints.down("lg")]: {
+            padding: "0 2rem",
+        },
     },
     rootContainer: {
         height: "100%",
