@@ -387,7 +387,7 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
         if (state.updateScores) {
             updateScores(state.orientation, state.gameScore, state.gameMistakes);
         }
-    }, [state.updateScores]);
+    }, [state.updateScores, state.orientation, state.gameScore, state.gameMistakes, updateScores]);
 
     return (
         <div className={classes.root}>
