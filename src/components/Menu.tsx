@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Grid, makeStyles, Typography, FormGroup, FormControlLabel, Checkbox, Hidden } from "@material-ui/core";
 import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
-import whiteCircle from "../images/white-circle.svg";
-import blackCircle from "../images/black-circle.svg";
-import randomCircle from "../images/random-circle.svg";
+import whiteIcon from "../images/white-icon.svg";
+import blackIcon from "../images/black-icon.svg";
+import randomIcon from "../images/random-icon.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,12 +64,18 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column",
     },
     colorIcon: {
-        margin: "5px 0 10px",
-        width: "16px",
+        margin: "8px 0 10px",
+        width: "30px",
+        [theme.breakpoints.down("xs")]: {
+            width: "25px",
+        },
     },
     colorIconLabel: {
         marginRight: "8px",
-        width: "18px",
+        width: "35px",
+        [theme.breakpoints.down("xs")]: {
+            width: "30px",
+        },
     },
     practiceButton: {
         "&.MuiButton-containedPrimary": {
@@ -132,9 +138,9 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                 <FiberManualRecordOutlined style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Side:</span>
                                 {state.orientation === "white" ? (
-                                    <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
+                                    <img src={whiteIcon} alt="White Circle" className={classes.colorIconLabel} />
                                 ) : (
-                                    <img src={blackCircle} alt="Black Circle" className={classes.colorIconLabel} />
+                                    <img src={blackIcon} alt="Black Circle" className={classes.colorIconLabel} />
                                 )}
                                 {state.orientation.charAt(0).toUpperCase() + state.orientation.slice(1)}
                             </Typography>
@@ -150,9 +156,9 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                 <FiberManualRecordOutlined style={{ color: "#DEC0A8" }} />
                                 <span className={classes.textTitle}>Side:</span>
                                 {state.orientation === "white" ? (
-                                    <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
+                                    <img src={whiteIcon} alt="White Circle" className={classes.colorIconLabel} />
                                 ) : (
-                                    <img src={blackCircle} alt="Black Circle" className={classes.colorIconLabel} />
+                                    <img src={blackIcon} alt="Black Circle" className={classes.colorIconLabel} />
                                 )}
                                 {state.orientation.charAt(0).toUpperCase() + state.orientation.slice(1)}
                             </Typography>
@@ -212,7 +218,7 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                         <Typography variant="body2" component="p">
                                             White
                                         </Typography>
-                                        <img src={whiteCircle} alt="White Circle" className={classes.colorIcon} />
+                                        <img src={whiteIcon} alt="White Circle" className={classes.colorIcon} />
                                     </div>
                                 </Button>
                             </Grid>
@@ -230,7 +236,7 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                         <Typography variant="body2" component="p">
                                             Random
                                         </Typography>
-                                        <img src={randomCircle} alt="Random Circle" className={classes.colorIcon} />
+                                        <img src={randomIcon} alt="Random Circle" className={classes.colorIcon} />
                                     </div>
                                 </Button>
                             </Grid>
@@ -248,7 +254,7 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                         <Typography variant="body2" component="p">
                                             Black
                                         </Typography>
-                                        <img src={blackCircle} alt="Black Circle" className={classes.colorIcon} />
+                                        <img src={blackIcon} alt="Black Circle" className={classes.colorIcon} />
                                     </div>
                                 </Button>
                             </Grid>

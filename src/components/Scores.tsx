@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { makeStyles, Typography, Grid } from "@material-ui/core";
 import Chart from "react-apexcharts";
-import whiteCircle from "../images/white-circle.svg";
-import blackCircle from "../images/black-circle.svg";
+import whiteIcon from "../images/white-icon.svg";
+import blackIcon from "../images/black-icon.svg";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,7 +53,10 @@ const useStyles = makeStyles((theme) => ({
     },
     colorIconLabel: {
         marginRight: "8px",
-        width: "18px",
+        width: "35px",
+        [theme.breakpoints.down("xs")]: {
+            width: "30px",
+        },
     },
 }));
 
@@ -397,9 +400,9 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                         <Typography variant="h4" component="p" className={classes.text}>
                             <span className={classes.textTitle}>Latest Score:</span>
                             {state.latestScorePos === "white" ? (
-                                <img src={whiteCircle} alt="White Circle" className={classes.colorIconLabel} />
+                                <img src={whiteIcon} alt="White Circle" className={classes.colorIconLabel} />
                             ) : (
-                                <img src={blackCircle} alt="Black Circle" className={classes.colorIconLabel} />
+                                <img src={blackIcon} alt="Black Circle" className={classes.colorIconLabel} />
                             )}
                             {state.gameScore}
                         </Typography>
