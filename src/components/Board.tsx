@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         position: "relative",
-        [theme.breakpoints.down("xl")]: {},
     },
     countdown: {
         color: "#fff",
@@ -45,12 +44,14 @@ const Board: React.FC<BoardProps> = ({ state, generatedNotation, onSquareClick }
             return 600;
         } else if ((screenWidth || screenHeight) > 1600) {
             return 550;
-        } else if ((screenWidth || screenHeight) > 1450) {
+        } else if ((screenWidth || screenHeight) > 1000) {
             return 500;
-        } else if ((screenWidth || screenHeight) > 1200) {
-            return 500;
-        } else {
+        } else if ((screenWidth || screenHeight) > 800) {
+            return 450;
+        } else if ((screenWidth || screenHeight) > 450) {
             return 400;
+        } else {
+            return screenWidth - 50;
         }
         // return (screenWidth || screenHeight) < 1600 ? ((screenWidth || screenHeight) < 1400 ? screenWidth : (screenWidth || screenHeight) < 550 ? screenWidth : 500) : 550;
     };

@@ -7,7 +7,12 @@ import blackCircle from "../images/black-circle.svg";
 const useStyles = makeStyles((theme) => ({
     root: {
         height: "100%",
-        [theme.breakpoints.down("xl")]: {},
+        [theme.breakpoints.down("lg")]: {
+            padding: "0 2rem",
+        },
+        [theme.breakpoints.down("md")]: {
+            padding: "0",
+        },
     },
     rootContainer: {
         height: "100%",
@@ -21,10 +26,30 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         fontSize: "1.825rem",
         marginBottom: "1.5rem",
+        [theme.breakpoints.down("md")]: {
+            justifyContent: "center",
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "1.425rem",
+        },
     },
     textTitle: {
         fontSize: "1.225rem",
         margin: "0 1rem 0 0",
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "1rem",
+        },
+    },
+    chartDataContainer: {
+        [theme.breakpoints.down("md")]: {
+            padding: "0 1rem",
+        },
+        [theme.breakpoints.down("sm")]: {
+            padding: "0 0.5rem",
+        },
+        [theme.breakpoints.down("xs")]: {
+            padding: "0",
+        },
     },
     colorIconLabel: {
         marginRight: "8px",
@@ -379,10 +404,18 @@ const Scores: React.FC<ScoresProps> = ({ state, updateScores }) => {
                             {state.gameScore}
                         </Typography>
                     </>
-                    <>
-                        {state.recentScoresWhite.length !== 0 && <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />}
-                        {state.recentScoresBlack.length !== 0 && <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />}
-                    </>
+                    <Grid container justify="center">
+                        {state.recentScoresWhite.length !== 0 && (
+                            <Grid item lg={12} sm={6} xs={12} className={classes.chartDataContainer}>
+                                <Chart options={whiteChartOptions} series={whiteChartData} type="line" width="100%" height="auto" />
+                            </Grid>
+                        )}
+                        {state.recentScoresBlack.length !== 0 && (
+                            <Grid item lg={12} sm={6} xs={12} className={classes.chartDataContainer}>
+                                <Chart options={blackChartOptions} series={blackChartData} type="line" width="100%" height="auto" />
+                            </Grid>
+                        )}
+                    </Grid>
                 </Grid>
             )}
         </div>

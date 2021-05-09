@@ -9,10 +9,18 @@ const useStyles = makeStyles((theme) => ({
         left: "50%",
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
-        [theme.breakpoints.down("xl")]: {},
     },
     paragraph: {
         textShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+        [theme.breakpoints.down("md")]: {
+            fontSize: "5rem",
+        },
+        [theme.breakpoints.down("sm")]: {
+            fontSize: "4.5rem",
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "4rem",
+        },
     },
 }));
 

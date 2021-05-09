@@ -1,6 +1,6 @@
 import React, { useReducer, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Hidden, Typography } from "@material-ui/core";
 import "./App.css";
 import Board from "./components/Board";
 import Scores from "./components/Scores";
@@ -9,12 +9,35 @@ import Wrapper from "./components/Wrapper";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
-    main: {},
+    main: {
+        padding: "3rem 0",
+        [theme.breakpoints.down("xs")]: {
+            padding: "2rem 0",
+        },
+    },
+    appContainer: {
+        "& > .MuiGrid-item": {
+            [theme.breakpoints.down("sm")]: {
+                padding: "20px",
+            },
+            [theme.breakpoints.down("xs")]: {
+                padding: "16px",
+            },
+        },
+    },
     headerTitle: {
         color: "#fff",
         textAlign: "center",
-        padding: "3rem 0",
+        padding: "0 0 3rem",
         fontSize: "2.5rem",
+        [theme.breakpoints.down("sm")]: {
+            padding: "0 0 2rem",
+            fontSize: "2.2rem",
+        },
+        [theme.breakpoints.down("xs")]: {
+            padding: "0 1rem 2rem",
+            fontSize: "1.8rem",
+        },
     },
 }));
 
@@ -88,7 +111,7 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 position: "start",
                 notation: true,
-                timer: 30,
+                timer: 5,
                 active: false,
                 onMenu: true,
                 updateScores: true,
@@ -160,7 +183,7 @@ function reducer(state: State, action: Action): State {
 }
 
 const initialState: State = {
-    timer: 30,
+    timer: 5,
     gameScore: 0,
     practiceScore: 0,
     position: "start",
@@ -452,14 +475,16 @@ function App() {
                     Chess Notation Trainer
                 </Typography>
                 <Wrapper>
-                    <Grid container spacing={6} justify="center">
-                        <Grid item xl={3} lg={4}>
-                            <Scores state={state} updateScores={updateScores} />
-                        </Grid>
-                        <Grid item lg={4}>
+                    <Grid container spacing={6} justify="center" className={classes.appContainer}>
+                        <Hidden mdDown>
+                            <Grid item xl={3} lg={4}>
+                                <Scores state={state} updateScores={updateScores} />
+                            </Grid>
+                        </Hidden>
+                        <Grid item lg={4} md={7} sm={10} xs={11}>
                             <Board state={state} changeOrientation={changeOrientation} generatedNotation={generatedNotation} onSquareClick={onSquareClick} />
                         </Grid>
-                        <Grid item xl={3} lg={4}>
+                        <Grid item xl={3} lg={4} md={5} sm={6} xs={11}>
                             <Menu
                                 state={state}
                                 changeOrientation={changeOrientation}
@@ -471,6 +496,11 @@ function App() {
                                 handlePracticePosition={handlePracticePosition}
                             />
                         </Grid>
+                        <Hidden lgUp>
+                            <Grid item xs={11}>
+                                <Scores state={state} updateScores={updateScores} />
+                            </Grid>
+                        </Hidden>
                     </Grid>
                 </Wrapper>
             </main>

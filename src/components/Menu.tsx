@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, makeStyles, Typography, FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Button, Grid, makeStyles, Typography, FormGroup, FormControlLabel, Checkbox, Hidden } from "@material-ui/core";
 import { AccessTime, BarChart, FiberManualRecordOutlined } from "@material-ui/icons";
 import whiteCircle from "../images/white-circle.svg";
 import blackCircle from "../images/black-circle.svg";
@@ -11,12 +11,22 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("lg")]: {
             padding: "0 2rem",
         },
+        [theme.breakpoints.down("md")]: {
+            padding: "0",
+        },
     },
     rootContainer: {
         height: "100%",
+        [theme.breakpoints.down("sm")]: {
+            alignItems: "center",
+        },
     },
     formGroup: {
         marginBottom: "1rem",
+        [theme.breakpoints.down("sm")]: {
+            marginLeft: "0.2rem",
+            marginBottom: "1.5rem",
+        },
     },
     text: {
         color: "#fff",
@@ -24,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         marginBottom: "1rem",
         fontSize: "1.825rem",
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "1.425rem",
+        },
         "&:last-child": {
             marginBottom: "0",
         },
@@ -31,10 +44,18 @@ const useStyles = makeStyles((theme) => ({
     textTitle: {
         fontSize: "1.225rem",
         margin: "0 1rem 0 0.5rem",
+        [theme.breakpoints.down("xs")]: {
+            fontSize: "1rem",
+        },
     },
     orientationButton: {
         "&.MuiButton-containedPrimary:hover": {
             backgroundColor: "#B68963",
+        },
+        "& .MuiTypography-body2": {
+            [theme.breakpoints.down("xs")]: {
+                fontSize: "0.775rem",
+            },
         },
     },
     buttonTextContainer: {
@@ -135,28 +156,48 @@ const Menu: React.FC<MenuProps> = ({ state, changeOrientation, startGame, gameTi
                                 )}
                                 {state.orientation.charAt(0).toUpperCase() + state.orientation.slice(1)}
                             </Typography>
+                            <Hidden mdUp>
+                                {state.activePractice && (
+                                    <Grid item xs={12}>
+                                        <FormGroup className={classes.formGroup}>
+                                            <FormControlLabel
+                                                className={classes.checkboxLabel}
+                                                control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
+                                                label="Show Pieces"
+                                            />
+                                            <FormControlLabel
+                                                className={classes.checkboxLabel}
+                                                control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
+                                                label="Show Coordinates"
+                                            />
+                                        </FormGroup>
+                                    </Grid>
+                                )}
+                            </Hidden>
                         </>
                     )}
                 </div>
                 {!state.active && (
                     <>
                         <Grid container item spacing={1}>
-                            {state.activePractice && (
-                                <Grid item xs={12}>
-                                    <FormGroup className={classes.formGroup}>
-                                        <FormControlLabel
-                                            className={classes.checkboxLabel}
-                                            control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
-                                            label="Show Pieces"
-                                        />
-                                        <FormControlLabel
-                                            className={classes.checkboxLabel}
-                                            control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
-                                            label="Show Coordinates"
-                                        />
-                                    </FormGroup>
-                                </Grid>
-                            )}
+                            <Hidden smDown>
+                                {state.activePractice && (
+                                    <Grid item xs={12}>
+                                        <FormGroup className={classes.formGroup}>
+                                            <FormControlLabel
+                                                className={classes.checkboxLabel}
+                                                control={<Checkbox name="pieces" checked={state.practicePosition} onChange={handlePracticePosition} color="primary" className={classes.checkbox} />}
+                                                label="Show Pieces"
+                                            />
+                                            <FormControlLabel
+                                                className={classes.checkboxLabel}
+                                                control={<Checkbox name="coordinates" checked={state.practiceCoords} onChange={handlePracticeCoords} color="primary" className={classes.checkbox} />}
+                                                label="Show Coordinates"
+                                            />
+                                        </FormGroup>
+                                    </Grid>
+                                )}
+                            </Hidden>
                             <Grid item xs={4}>
                                 <Button
                                     color={buttonOrientation === "white" ? "primary" : "secondary"}
