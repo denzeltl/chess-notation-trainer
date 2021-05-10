@@ -111,7 +111,7 @@ function reducer(state: State, action: Action): State {
                 ...state,
                 position: "start",
                 notation: true,
-                timer: 5,
+                timer: 30,
                 active: false,
                 onMenu: true,
                 updateScores: true,
@@ -183,7 +183,7 @@ function reducer(state: State, action: Action): State {
 }
 
 const initialState: State = {
-    timer: 5,
+    timer: 30,
     gameScore: 0,
     practiceScore: 0,
     position: "start",
@@ -208,7 +208,14 @@ const initialState: State = {
 
 function App() {
     const classes = useStyles();
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(
+        reducer,
+        initialState,
+        (): State => {
+            const localData = localStorage.getItem("state");
+            return localData ? JSON.parse(localData) : initialState;
+        }
+    );
     const notations: string[] = [
         "a1",
         "a2",
@@ -466,6 +473,7 @@ function App() {
 
     useEffect(() => {
         setGameTimer(state.timer);
+        localStorage.setItem("state", JSON.stringify(state));
     }, [state]);
 
     return (
