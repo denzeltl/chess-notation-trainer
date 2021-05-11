@@ -213,7 +213,20 @@ function App() {
         initialState,
         (): State => {
             const localData = localStorage.getItem("state");
-            return localData ? JSON.parse(localData) : initialState;
+            const localDataObj = localData ? JSON.parse(localData) : null;
+            return localData
+                ? {
+                      ...localDataObj,
+                      timer: 30,
+                      position: "start",
+                      orientation: "white",
+                      notation: true,
+                      active: false,
+                      activePractice: false,
+                      onMenu: true,
+                      updateScores: false,
+                  }
+                : initialState;
         }
     );
     const notations: string[] = [
