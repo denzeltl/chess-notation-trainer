@@ -24,7 +24,6 @@ Main features of this app that you won't see from other chess notation trainers 
 
 ## To Do:
 
--   Update background of icons on manifest.json to be transparent
 -   Fix horizontal scrolling on mobile
 -   Improve overall performance for mobile (https://medium.com/in-the-weeds/my-react-app-is-slow-what-should-i-do-e1fd020e69ec)
 -   Create product landing page
