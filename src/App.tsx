@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     appContainer: {
+        [theme.breakpoints.down("sm")]: {
+            width: "100%",
+            margin: 0,
+        },
         "& > .MuiGrid-item": {
             [theme.breakpoints.down("sm")]: {
                 padding: "20px",
@@ -208,27 +212,23 @@ const initialState: State = {
 
 function App() {
     const classes = useStyles();
-    const [state, dispatch] = useReducer(
-        reducer,
-        initialState,
-        (): State => {
-            const localData = localStorage.getItem("state");
-            const localDataObj = localData ? JSON.parse(localData) : null;
-            return localData
-                ? {
-                      ...localDataObj,
-                      timer: 30,
-                      position: "start",
-                      orientation: "white",
-                      notation: true,
-                      active: false,
-                      activePractice: false,
-                      onMenu: true,
-                      updateScores: false,
-                  }
-                : initialState;
-        }
-    );
+    const [state, dispatch] = useReducer(reducer, initialState, (): State => {
+        const localData = localStorage.getItem("state");
+        const localDataObj = localData ? JSON.parse(localData) : null;
+        return localData
+            ? {
+                  ...localDataObj,
+                  timer: 30,
+                  position: "start",
+                  orientation: "white",
+                  notation: true,
+                  active: false,
+                  activePractice: false,
+                  onMenu: true,
+                  updateScores: false,
+              }
+            : initialState;
+    });
     const notations: string[] = [
         "a1",
         "a2",
