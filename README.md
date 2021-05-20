@@ -24,5 +24,5 @@ Main features of this app that you won't see from other chess notation trainers 
 
 ## To Do:
 
--   Improve overall performance for mobile (https://medium.com/in-the-weeds/my-react-app-is-slow-what-should-i-do-e1fd020e69ec)
+-   Improve overall performance for mobile (State Colocation)
 -   Create product landing page
