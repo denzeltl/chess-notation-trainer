@@ -24,5 +24,6 @@ Main features of this app that you won't see from other chess notation trainers 
 
 ## To Do:
 
+-   Add gif of the application on README
 -   Improve overall performance for mobile (State Colocation)
 -   Create product landing page
